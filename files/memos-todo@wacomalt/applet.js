@@ -274,8 +274,16 @@ class MemosApplet extends Applet.TextApplet {
                 duration: duration,
                 mode: Clutter.AnimationMode.EASE_OUT_QUAD,
                 onComplete: () => {
-                    this.currentLineIndex = (this.currentLineIndex + 1) % this.memoLines.length;
+                    if (this.memoLines.length > 0) {
+                        this.currentLineIndex = (this.currentLineIndex + 1) % this.memoLines.length;
+                    } else {
+                        this.currentLineIndex = 0;
+                    }
+                    if (isNaN(this.currentLineIndex)) this.currentLineIndex = 0;
+
                     this._updateAppletLabel();
+                    if (!this._applet_label) return;
+
                     this._applet_label.set_translation(0, 20, 0);
                     this._applet_label.ease({
                         opacity: 255,
@@ -298,9 +306,10 @@ class MemosApplet extends Applet.TextApplet {
             return;
         }
 
-        // Ensure index is valid
-        if (this.currentLineIndex < 0) this.currentLineIndex = 0;
-        if (this.currentLineIndex >= this.memoLines.length) this.currentLineIndex = 0;
+        // Ensure index is valid and not NaN
+        if (isNaN(this.currentLineIndex) || this.currentLineIndex < 0 || this.currentLineIndex >= this.memoLines.length) {
+            this.currentLineIndex = 0;
+        }
 
         let line = this.memoLines[this.currentLineIndex];
         if (!line) {
@@ -391,10 +400,15 @@ class MemosApplet extends Applet.TextApplet {
             data = JSON.parse(jsonString);
             if (!data) throw new Error("Null or empty JSON");
 
+            log("Memos ToDo: Keys in response: " + Object.keys(data).join(", "));
+
             let content = data.content || (data.memo && data.memo.content) || "";
+            log("Memos ToDo: Content length: " + content.length);
+
             if (this._dirty && !force) return;
 
             let allLines = content.split('\n').map(l => l.trim()).filter(l => l.length > 0);
+            log("Memos ToDo: Total lines parsed: " + allLines.length);
 
             // Filter panel lines
             if (!this.showCompletedPanel) {
