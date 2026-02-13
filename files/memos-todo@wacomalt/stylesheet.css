@@ -1,0 +1,74 @@
+.memo-popup-content {
+    padding: 12px;
+}
+
+.memo-popup-text {
+    padding: 4px;
+    text-align: left;
+    color: #dfdfdf;
+}
+
+.memo-popup-scrollbox {
+    max-height: 450px;
+}
+
+.memo-todo-button {
+    text-align: left;
+    padding: 6px 8px;
+    border: 1px solid transparent;
+    transition-duration: 150ms;
+}
+
+.memo-todo-button:hover {
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    background-color: rgba(255, 255, 255, 0.08);
+    border-radius: 6px;
+}
+
+.memo-bottom-bar {
+    padding: 10px 5px;
+}
+
+.memo-bottom-button {
+    padding: 7px 14px;
+    border-radius: 6px;
+    background-color: rgba(255, 255, 255, 0.07);
+    color: #eeeeee;
+    margin: 4px 0;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    transition-duration: 200ms;
+}
+
+.memo-bottom-button:hover {
+    background-color: rgba(255, 255, 255, 0.15);
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    color: #ffffff;
+}
+
+.memo-add-entry {
+    padding: 8px;
+    background-color: rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 6px;
+    color: #ffffff;
+    caret-color: #5294e2;
+}
+
+.memo-add-entry:focus {
+    border: 1px solid #5294e2;
+}
+
+.memo-delete-button {
+    padding: 4px 10px;
+    border-radius: 6px;
+    color: rgba(255, 85, 85, 0.7);
+    background-color: transparent;
+    border: 1px solid transparent;
+    transition-duration: 150ms;
+}
+
+.memo-delete-button:hover {
+    background-color: rgba(255, 85, 85, 0.15);
+    border: 1px solid rgba(255, 85, 85, 0.3);
+    color: #ff5555;
+}

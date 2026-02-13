@@ -40,9 +40,6 @@ class MemosApplet extends Applet.TextApplet {
         this.menu.connect('open-state-changed', Lang.bind(this, (menu, open) => {
             if (!open) {
                 this._hideAddEntry();
-                if (this._dirty) {
-                    this._saveChanges();
-                }
             }
         }));
 
@@ -296,11 +293,21 @@ class MemosApplet extends Applet.TextApplet {
     }
 
     _updateAppletLabel() {
-        if (this.memoLines.length === 0) {
+        if (!this.memoLines || this.memoLines.length === 0) {
             this.set_applet_label("Empty Memo");
             return;
         }
+
+        // Ensure index is valid
+        if (this.currentLineIndex < 0) this.currentLineIndex = 0;
+        if (this.currentLineIndex >= this.memoLines.length) this.currentLineIndex = 0;
+
         let line = this.memoLines[this.currentLineIndex];
+        if (!line) {
+            this.set_applet_label("Empty Memo");
+            return;
+        }
+
         if (line.length > 100) line = line.substring(0, 97) + "...";
         this.set_applet_label(line);
     }
@@ -312,12 +319,6 @@ class MemosApplet extends Applet.TextApplet {
         try { Gio.app_info_launch_default_for_uri(targetUrl, null); } catch (e) { global.logError(e); }
     }
 
-    _onMenuOpenStateChanged(menu, open) {
-        if (!open) {
-            this._hideAddEntry();
-            if (this._dirty) this._saveChanges();
-        }
-    }
 
     _saveChanges() {
         let fullLines = [];
@@ -347,9 +348,17 @@ class MemosApplet extends Applet.TextApplet {
         message.request_headers.append('Authorization', `Bearer ${this.authToken}`);
         message.request_headers.append('Content-Type', 'application/json');
         let body = JSON.stringify({ content: newContent });
-        if (Soup.MAJOR_VERSION === 2) message.set_request('application/json', 2, body);
-        else message.set_request_body_from_bytes('application/json', new GLib.Bytes(body));
-        this._sendRequest(message, (text) => this._parseResponse(text));
+
+        if (Soup.MAJOR_VERSION === 2) {
+            message.set_request('application/json', 1, body); // Use COPY (1) instead of TAKE (2)
+        } else {
+            message.set_request_body_from_bytes('application/json', new GLib.Bytes(body));
+        }
+
+        this._sendRequest(message, (text) => {
+            log("Memos ToDo: PATCH Successful");
+            this._parseResponse(text, true);
+        });
     }
 
     _sendRequest(message, callback) {
@@ -377,8 +386,11 @@ class MemosApplet extends Applet.TextApplet {
     }
 
     _parseResponse(jsonString, force = false) {
+        let data;
         try {
-            let data = JSON.parse(jsonString);
+            data = JSON.parse(jsonString);
+            if (!data) throw new Error("Null or empty JSON");
+
             let content = data.content || (data.memo && data.memo.content) || "";
             if (this._dirty && !force) return;
 
@@ -395,7 +407,7 @@ class MemosApplet extends Applet.TextApplet {
             if (this.currentLineIndex >= this.memoLines.length) this.currentLineIndex = 0;
             this._updateAppletLabel();
         } catch (e) {
-            global.logError("Memos ToDo Parse Error: " + e.message);
+            log("Memos ToDo Parse Error: " + e.message + " | Data: " + jsonString.substring(0, 100));
             this._handleError("Parse Error");
         }
     }
@@ -459,18 +471,12 @@ class MemosApplet extends Applet.TextApplet {
         item.checked = !item.checked;
         item.lines[0] = (item.checked ? "☑ " : "☐ ") + item.lines[0].substring(2);
         if (item.labelActor) item.labelActor.set_text(item.lines.join('\n'));
-        this._dirty = true;
-
-        // Immediate panel sync
-        let content = this.items.map(it => it.lines.join('\n')).join('\n');
-        this._parseResponse(JSON.stringify({ content: content }), true);
+        this._saveChanges();
     }
 
     _onDeleteClicked(index) {
         this.items.splice(index, 1);
-        this._dirty = true;
-        let content = this.items.map(it => it.lines.join('\n')).join('\n');
-        this._parseResponse(JSON.stringify({ content: content }), true);
+        this._saveChanges();
     }
 
     on_applet_clicked(event) { this.menu.toggle(); }

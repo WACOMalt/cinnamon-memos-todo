@@ -1,0 +1,8 @@
+{
+    "uuid": "memos-todo@wacomalt",
+    "name": "Memos ToDo",
+    "description": "Displays and interacts with a specific memo from UseMemos",
+    "author": "WACOMalt",
+    "version": "1.0",
+    "url": "https://github.com/WACOMalt/cinnamon-memos-todo"
+}
