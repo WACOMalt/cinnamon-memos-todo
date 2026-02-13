@@ -232,6 +232,7 @@ class MemosApplet extends Applet.TextApplet {
         this.settings.bind("scroll-interval", "scrollInterval", Lang.bind(this, this._onScrollSettingsChanged));
         this.settings.bind("set-panel-width", "setPanelWidth", Lang.bind(this, this._onStyleSettingsChanged));
         this.settings.bind("panel-width", "panelWidth", Lang.bind(this, this._onStyleSettingsChanged));
+        this.settings.bind("transition-duration", "transitionDuration", Lang.bind(this, this._onStyleSettingsChanged));
         this.settings.bind("show-completed-panel", "showCompletedPanel", Lang.bind(this, this._onSettingsChanged));
         this.settings.bind("show-completed-popup", "showCompletedPopup", Lang.bind(this, this._onSettingsChanged));
     }
@@ -307,7 +308,33 @@ class MemosApplet extends Applet.TextApplet {
     }
 
     _scrollLoop() {
-        if (this.memoLines.length > 0) {
+        if (this.memoLines.length <= 1) {
+            if (this.memoLines.length === 1) this._updateAppletLabel();
+            return true;
+        }
+
+        let duration = this.transitionDuration;
+        if (duration === undefined) duration = 300;
+
+        if (duration > 0 && this._applet_label) {
+            this._applet_label.ease({
+                opacity: 0,
+                translation_y: -20,
+                duration: duration,
+                mode: Clutter.AnimationMode.EASE_OUT_QUAD,
+                onComplete: () => {
+                    this.currentLineIndex = (this.currentLineIndex + 1) % this.memoLines.length;
+                    this._updateAppletLabel();
+                    this._applet_label.set_translation(0, 20, 0);
+                    this._applet_label.ease({
+                        opacity: 255,
+                        translation_y: 0,
+                        duration: duration,
+                        mode: Clutter.AnimationMode.EASE_IN_QUAD
+                    });
+                }
+            });
+        } else {
             this.currentLineIndex = (this.currentLineIndex + 1) % this.memoLines.length;
             this._updateAppletLabel();
         }

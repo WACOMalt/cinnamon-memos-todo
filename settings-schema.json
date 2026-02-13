@@ -87,5 +87,14 @@
         "type": "checkbox",
         "default": true,
         "description": "Show completed tasks in popup"
+    },
+    "transition-duration": {
+        "type": "spinbutton",
+        "default": 300,
+        "min": 0,
+        "max": 2000,
+        "step": 50,
+        "units": "ms",
+        "description": "Panel Slide Duration"
     }
 }
