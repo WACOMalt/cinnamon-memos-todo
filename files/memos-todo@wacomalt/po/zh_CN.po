@@ -1,0 +1,91 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Memos ToDo\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-02-13 12:40-0500\n"
+"PO-Revision-Date: 2026-02-13 12:40-0500\n"
+"Last-Translator: WACOMalt\n"
+"Language-Team: Chinese Simplified\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: zh_CN\n"
+
+msgid "Loading..."
+msgstr "加载中..."
+
+msgid "Configure"
+msgstr "配置"
+
+msgid "About..."
+msgstr "关于..."
+
+msgid "Remove"
+msgstr "移除"
+
+msgid "New task..."
+msgstr "新任务..."
+
+msgid "Open in Browser"
+msgstr "在浏览器中打开"
+
+msgid "Empty Memo"
+msgstr "空备忘录"
+
+msgid "Connection Error"
+msgstr "连接错误"
+
+#, javascript-format
+msgid "Error %d"
+msgstr "错误 %d"
+
+msgid "Server URL (e.g., https://memos.example.com)"
+msgstr "服务器 URL (例如 https://memos.example.com)"
+
+msgid "The base URL of your Memos server"
+msgstr "Memos 服务器的基础 URL"
+
+msgid "Authentication Token"
+msgstr "身份验证令牌"
+
+msgid "Your API Access Token (Bearer token not including 'Bearer ' prefix)"
+msgstr "您的 API 访问令牌 (不包含 'Bearer ' 前缀的 Bearer 令牌)"
+
+msgid "Memo ID to display"
+msgstr "要显示的备忘录 ID"
+
+msgid "The ID of the memo you want to show (found in the memo URL or details)"
+msgstr "您想要显示的备忘录 ID (在备忘录 URL 或详情中可以找到)"
+
+msgid "Refresh Interval"
+msgstr "刷新间隔"
+
+msgid "Popup Font Size"
+msgstr "弹窗字体大小"
+
+msgid "Panel Font Size"
+msgstr "面板字体大小"
+
+msgid "Popup Width"
+msgstr "弹窗宽度"
+
+msgid "Text Cycle Interval"
+msgstr "文本循环间隔"
+
+msgid "Time to show each line before switching to the next"
+msgstr "切换到下一行之前的显示时间"
+
+msgid "Set Fixed Panel Width"
+msgstr "设置固定面板宽度"
+
+msgid "Panel Width"
+msgstr "面板宽度"
+
+msgid "Show completed tasks in panel"
+msgstr "在面板中显示已完成的任务"
+
+msgid "Show completed tasks in popup"
+msgstr "在弹窗中显示已完成的任务"
+
+msgid "Panel Slide Duration"
+msgstr "面板滑动持续时间"

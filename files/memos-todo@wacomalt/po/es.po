@@ -1,0 +1,91 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Memos ToDo\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-02-13 12:40-0500\n"
+"PO-Revision-Date: 2026-02-13 12:40-0500\n"
+"Last-Translator: WACOMalt\n"
+"Language-Team: Spanish\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: es\n"
+
+msgid "Loading..."
+msgstr "Cargando..."
+
+msgid "Configure"
+msgstr "Configurar"
+
+msgid "About..."
+msgstr "Acerca de..."
+
+msgid "Remove"
+msgstr "Quitar"
+
+msgid "New task..."
+msgstr "Nueva tarea..."
+
+msgid "Open in Browser"
+msgstr "Abrir en el navegador"
+
+msgid "Empty Memo"
+msgstr "Memo vacío"
+
+msgid "Connection Error"
+msgstr "Error de conexión"
+
+#, javascript-format
+msgid "Error %d"
+msgstr "Error %d"
+
+msgid "Server URL (e.g., https://memos.example.com)"
+msgstr "URL del servidor (p. ej., https://memos.example.com)"
+
+msgid "The base URL of your Memos server"
+msgstr "La URL base de su servidor Memos"
+
+msgid "Authentication Token"
+msgstr "Token de autenticación"
+
+msgid "Your API Access Token (Bearer token not including 'Bearer ' prefix)"
+msgstr "Su token de acceso API (token de portador que no incluye el prefijo 'Bearer ')"
+
+msgid "Memo ID to display"
+msgstr "ID del memo a mostrar"
+
+msgid "The ID of the memo you want to show (found in the memo URL or details)"
+msgstr "El ID del memo que desea mostrar (se encuentra en la URL o los detalles del memo)"
+
+msgid "Refresh Interval"
+msgstr "Intervalo de actualización"
+
+msgid "Popup Font Size"
+msgstr "Tamaño de fuente del menú"
+
+msgid "Panel Font Size"
+msgstr "Tamaño de fuente del panel"
+
+msgid "Popup Width"
+msgstr "Ancho del menú"
+
+msgid "Text Cycle Interval"
+msgstr "Intervalo de ciclo de texto"
+
+msgid "Time to show each line before switching to the next"
+msgstr "Tiempo para mostrar cada línea antes de pasar a la siguiente"
+
+msgid "Set Fixed Panel Width"
+msgstr "Establecer ancho de panel fijo"
+
+msgid "Panel Width"
+msgstr "Ancho del panel"
+
+msgid "Show completed tasks in panel"
+msgstr "Mostrar tareas completadas en el panel"
+
+msgid "Show completed tasks in popup"
+msgstr "Mostrar tareas completadas en el menú"
+
+msgid "Panel Slide Duration"
+msgstr "Duración del deslizamiento del panel"

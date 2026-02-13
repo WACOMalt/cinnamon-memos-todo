@@ -1,0 +1,91 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Memos ToDo\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-02-13 12:40-0500\n"
+"PO-Revision-Date: 2026-02-13 12:40-0500\n"
+"Last-Translator: WACOMalt\n"
+"Language-Team: Hindi\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: hi\n"
+
+msgid "Loading..."
+msgstr "लोड हो रहा है..."
+
+msgid "Configure"
+msgstr "कॉन्फ़िगर करें"
+
+msgid "About..."
+msgstr "के बारे में..."
+
+msgid "Remove"
+msgstr "निकालें"
+
+msgid "New task..."
+msgstr "नया कार्य..."
+
+msgid "Open in Browser"
+msgstr "ब्राउज़र में खोलें"
+
+msgid "Empty Memo"
+msgstr "खाली मेमो"
+
+msgid "Connection Error"
+msgstr "कनेक्शन त्रुटि"
+
+#, javascript-format
+msgid "Error %d"
+msgstr "त्रुटि %d"
+
+msgid "Server URL (e.g., https://memos.example.com)"
+msgstr "सर्वर URL (जैसे, https://memos.example.com)"
+
+msgid "The base URL of your Memos server"
+msgstr "आपके मेमो सर्वर का आधार URL"
+
+msgid "Authentication Token"
+msgstr "प्रमाणीकरण टोकन"
+
+msgid "Your API Access Token (Bearer token not including 'Bearer ' prefix)"
+msgstr "आपका API एक्सेस टोकन (Bearer टोकन जिसमें 'Bearer ' उपसर्ग शामिल नहीं है)"
+
+msgid "Memo ID to display"
+msgstr "दिखाने के लिए मेमो आईडी"
+
+msgid "The ID of the memo you want to show (found in the memo URL or details)"
+msgstr "उस मेमो की आईडी जिसे आप दिखाना चाहते हैं (मेमो URL या विवरण में पाया जाता है)"
+
+msgid "Refresh Interval"
+msgstr "अंतराल ताज़ा करें"
+
+msgid "Popup Font Size"
+msgstr "पॉपअप फ़ॉन्ट आकार"
+
+msgid "Panel Font Size"
+msgstr "पैनल फ़ॉन्ट आकार"
+
+msgid "Popup Width"
+msgstr "पॉपअप चौड़ाई"
+
+msgid "Text Cycle Interval"
+msgstr "टेक्स्ट साइकिल अंतराल"
+
+msgid "Time to show each line before switching to the next"
+msgstr "अगली पंक्ति पर जाने से पहले प्रत्येक पंक्ति दिखाने का समय"
+
+msgid "Set Fixed Panel Width"
+msgstr "निश्चित पैनल चौड़ाई सेट करें"
+
+msgid "Panel Width"
+msgstr "पैनल चौड़ाई"
+
+msgid "Show completed tasks in panel"
+msgstr "पैनल में पूर्ण किए गए कार्य दिखाएं"
+
+msgid "Show completed tasks in popup"
+msgstr "पॉपअप में पूर्ण किए गए कार्य दिखाएं"
+
+msgid "Panel Slide Duration"
+msgstr "पैनल स्लाइड अवधि"

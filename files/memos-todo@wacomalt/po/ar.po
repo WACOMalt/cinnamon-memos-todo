@@ -1,0 +1,91 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Memos ToDo\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-02-13 12:40-0500\n"
+"PO-Revision-Date: 2026-02-13 12:40-0500\n"
+"Last-Translator: WACOMalt\n"
+"Language-Team: Arabic\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: ar\n"
+
+msgid "Loading..."
+msgstr "جاري التحميل..."
+
+msgid "Configure"
+msgstr "تهيئة"
+
+msgid "About..."
+msgstr "حول..."
+
+msgid "Remove"
+msgstr "إزالة"
+
+msgid "New task..."
+msgstr "مهمة جديدة..."
+
+msgid "Open in Browser"
+msgstr "فتح في المتصفح"
+
+msgid "Empty Memo"
+msgstr "مذكرة فارغة"
+
+msgid "Connection Error"
+msgstr "خطأ في الاتصال"
+
+#, javascript-format
+msgid "Error %d"
+msgstr "خطأ %d"
+
+msgid "Server URL (e.g., https://memos.example.com)"
+msgstr "عنوان URL للخادم (مثلاً https://memos.example.com)"
+
+msgid "The base URL of your Memos server"
+msgstr "عنوان URL الأساسي لخادم Memos الخاص بك"
+
+msgid "Authentication Token"
+msgstr "رمز المصادقة"
+
+msgid "Your API Access Token (Bearer token not including 'Bearer ' prefix)"
+msgstr "رمز الوصول إلى واجهة برمجة التطبيقات (رمز Bearer بدون بادئة 'Bearer ')"
+
+msgid "Memo ID to display"
+msgstr "معرف المذكرة لعرضه"
+
+msgid "The ID of the memo you want to show (found in the memo URL or details)"
+msgstr "معرف المذكرة التي تريد إظهارها (موجود في عنوان URL للمذكرة أو تفاصيلها)"
+
+msgid "Refresh Interval"
+msgstr "فترة التحديث"
+
+msgid "Popup Font Size"
+msgstr "حجم خط القائمة المنبثقة"
+
+msgid "Panel Font Size"
+msgstr "حجم خط الشريط"
+
+msgid "Popup Width"
+msgstr "عرض القائمة المنبثقة"
+
+msgid "Text Cycle Interval"
+msgstr "فترة دورة النص"
+
+msgid "Time to show each line before switching to the next"
+msgstr "الوقت لعرض كل سطر قبل الانتقال إلى التالي"
+
+msgid "Set Fixed Panel Width"
+msgstr "تعيين عرض ثابت للشريط"
+
+msgid "Panel Width"
+msgstr "عرض الشريط"
+
+msgid "Show completed tasks in panel"
+msgstr "إظهار المهام المكتملة في الشريط"
+
+msgid "Show completed tasks in popup"
+msgstr "إظهار المهام المكتملة في القائمة المنبثقة"
+
+msgid "Panel Slide Duration"
+msgstr "مدة انزلاق الشريط"

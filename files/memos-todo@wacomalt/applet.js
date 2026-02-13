@@ -387,7 +387,10 @@ class MemosApplet extends Applet.TextApplet {
             this._httpSession.send_and_read_async(message, GLib.PRIORITY_DEFAULT, null, (session, result) => {
                 try {
                     let bytes = session.send_and_read_finish(result);
-                    if (message.status_code !== 200) { this._handleError(`Error ${message.status_code}`); return; }
+                    if (message.status_code !== 200) {
+                        this._handleError(_("Error %d").format(message.status_code));
+                        return;
+                    }
                     callback(new TextDecoder('utf-8').decode(bytes.get_data()));
                 } catch (e) { this._handleError(_("Connection Error")); }
             });

@@ -1,0 +1,91 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Memos ToDo\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-02-13 12:40-0500\n"
+"PO-Revision-Date: 2026-02-13 12:40-0500\n"
+"Last-Translator: WACOMalt\n"
+"Language-Team: Japanese\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: ja\n"
+
+msgid "Loading..."
+msgstr "読み込み中..."
+
+msgid "Configure"
+msgstr "設定"
+
+msgid "About..."
+msgstr "このアプリについて..."
+
+msgid "Remove"
+msgstr "削除"
+
+msgid "New task..."
+msgstr "新しいタスク..."
+
+msgid "Open in Browser"
+msgstr "ブラウザで開く"
+
+msgid "Empty Memo"
+msgstr "メモがありません"
+
+msgid "Connection Error"
+msgstr "接続エラー"
+
+#, javascript-format
+msgid "Error %d"
+msgstr "エラー %d"
+
+msgid "Server URL (e.g., https://memos.example.com)"
+msgstr "サーバーURL (例: https://memos.example.com)"
+
+msgid "The base URL of your Memos server"
+msgstr "MemosサーバーのベースURL"
+
+msgid "Authentication Token"
+msgstr "認証トークン"
+
+msgid "Your API Access Token (Bearer token not including 'Bearer ' prefix)"
+msgstr "APIアクセストークン ('Bearer ' プレフィックスを含まないベアラートークン)"
+
+msgid "Memo ID to display"
+msgstr "表示するメモのID"
+
+msgid "The ID of the memo you want to show (found in the memo URL or details)"
+msgstr "表示したいメモのID (メモのURLまたは詳細にあります)"
+
+msgid "Refresh Interval"
+msgstr "更新間隔"
+
+msgid "Popup Font Size"
+msgstr "ポップアップのフォントサイズ"
+
+msgid "Panel Font Size"
+msgstr "パネルのフォントサイズ"
+
+msgid "Popup Width"
+msgstr "ポップアップの幅"
+
+msgid "Text Cycle Interval"
+msgstr "テキストの切り替え間隔"
+
+msgid "Time to show each line before switching to the next"
+msgstr "次の行に切り替えるまでの表示時間"
+
+msgid "Set Fixed Panel Width"
+msgstr "パネルの幅を固定する"
+
+msgid "Panel Width"
+msgstr "パネルの幅"
+
+msgid "Show completed tasks in panel"
+msgstr "パネルに完了したタスクを表示する"
+
+msgid "Show completed tasks in popup"
+msgstr "ポップアップに完了したタスクを表示する"
+
+msgid "Panel Slide Duration"
+msgstr "パネルのスライド時間"
