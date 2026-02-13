@@ -25,6 +25,11 @@
     border-radius: 6px;
 }
 
+.memo-todo-completed {
+    text-decoration: line-through;
+    opacity: 0.6;
+}
+
 .memo-bottom-bar {
     padding: 10px 5px;
 }

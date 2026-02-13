@@ -448,7 +448,11 @@ class MemosApplet extends Applet.TextApplet {
                 let itemBox = new St.BoxLayout({ vertical: false, x_expand: true });
                 let btn = new St.Button({ style_class: 'memo-todo-button', reactive: true, can_focus: true, x_expand: true, x_align: St.Align.START });
                 btn._isTodoButton = true;
-                let btnLabel = new St.Label({ text: text, style_class: 'memo-popup-text', x_align: St.Align.START });
+                let btnLabel = new St.Label({
+                    text: text,
+                    style_class: 'memo-popup-text' + (item.checked ? ' memo-todo-completed' : ''),
+                    x_align: St.Align.START
+                });
                 btnLabel.clutter_text.line_wrap = true;
                 btnLabel.clutter_text.line_wrap_mode = Pango.WrapMode.WORD_CHAR;
                 btn.set_child(btnLabel);
@@ -470,7 +474,11 @@ class MemosApplet extends Applet.TextApplet {
         if (!item || item.type !== 'todo') return;
         item.checked = !item.checked;
         item.lines[0] = (item.checked ? "☑ " : "☐ ") + item.lines[0].substring(2);
-        if (item.labelActor) item.labelActor.set_text(item.lines.join('\n'));
+        if (item.labelActor) {
+            item.labelActor.set_text(item.lines.join('\n'));
+            if (item.checked) item.labelActor.add_style_class_name('memo-todo-completed');
+            else item.labelActor.remove_style_class_name('memo-todo-completed');
+        }
         this._saveChanges();
     }
 
