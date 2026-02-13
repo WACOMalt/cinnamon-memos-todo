@@ -309,7 +309,11 @@ class MemosApplet extends Applet.TextApplet {
 
     _updateAppletLabel() {
         if (!this.memoLines || this.memoLines.length === 0) {
-            this.set_applet_label(_("Empty Memo"));
+            if (this._hasError) {
+                this.set_applet_label(this._lastErrorMsg || _("Error"));
+            } else {
+                this.set_applet_label(_("Empty Memo"));
+            }
             return;
         }
 
@@ -320,7 +324,11 @@ class MemosApplet extends Applet.TextApplet {
 
         let line = this.memoLines[this.currentLineIndex];
         if (!line) {
-            this.set_applet_label(_("Empty Memo"));
+            if (this._hasError) {
+                this.set_applet_label(this._lastErrorMsg || _("Error"));
+            } else {
+                this.set_applet_label(_("Empty Memo"));
+            }
             return;
         }
 
@@ -398,10 +406,17 @@ class MemosApplet extends Applet.TextApplet {
     }
 
     _handleError(msg) {
-        this.set_applet_label(msg);
+        this._hasError = true;
+        this._lastErrorMsg = msg;
         this.statusLabel.set_text(msg);
         this.statusLabel.show();
-        this.memoLines = [];
+
+        // If we have existing data, don't wipe it from the panel immediately.
+        // The scroll loop will continue showing last known data.
+        // If NO data exists, then show the error on the panel.
+        if (!this.memoLines || this.memoLines.length === 0) {
+            this.set_applet_label(msg);
+        }
     }
 
     _parseResponse(jsonString, force = false) {
@@ -409,6 +424,10 @@ class MemosApplet extends Applet.TextApplet {
         try {
             data = JSON.parse(jsonString);
             if (!data) throw new Error("Null or empty JSON");
+
+            // Success, clear error flags
+            this._hasError = false;
+            this.statusLabel.hide();
 
             let content = data.content || (data.memo && data.memo.content) || "";
 
