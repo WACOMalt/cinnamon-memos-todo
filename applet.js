@@ -20,6 +20,7 @@ class MemosApplet extends Applet.TextApplet {
         super(orientation, panel_height, instance_id);
 
         this.set_applet_label("Loading...");
+        this.actor.set_clip_to_allocation(true);
 
         // Initialize state variables
         this.memoLines = [];
