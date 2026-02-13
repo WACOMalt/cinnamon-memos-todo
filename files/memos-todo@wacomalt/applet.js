@@ -400,15 +400,11 @@ class MemosApplet extends Applet.TextApplet {
             data = JSON.parse(jsonString);
             if (!data) throw new Error("Null or empty JSON");
 
-            log("Memos ToDo: Keys in response: " + Object.keys(data).join(", "));
-
             let content = data.content || (data.memo && data.memo.content) || "";
-            log("Memos ToDo: Content length: " + content.length);
 
             if (this._dirty && !force) return;
 
             let allLines = content.split('\n').map(l => l.trim()).filter(l => l.length > 0);
-            log("Memos ToDo: Total lines parsed: " + allLines.length);
 
             // Filter panel lines
             if (!this.showCompletedPanel) {
