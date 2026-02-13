@@ -19,7 +19,6 @@ class MemosApplet extends Applet.TextApplet {
     constructor(metadata, orientation, panel_height, instance_id) {
         super(orientation, panel_height, instance_id);
 
-        this.set_applet_tooltip("Click to view to-do list");
         this.set_applet_label("Loading...");
 
         // Initialize state variables
