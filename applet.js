@@ -226,6 +226,7 @@ class MemosApplet extends Applet.TextApplet {
         this.settings.bind("auth-token", "authToken", Lang.bind(this, this._onSettingsChanged));
         this.settings.bind("memo-id", "memoId", Lang.bind(this, this._onSettingsChanged));
         this.settings.bind("refresh-interval", "refreshInterval", Lang.bind(this, this._onSettingsChanged));
+        this.settings.bind("panel-font-size", "panelFontSize", Lang.bind(this, this._onStyleSettingsChanged));
         this.settings.bind("popup-font-size", "popupFontSize", Lang.bind(this, this._onStyleSettingsChanged));
         this.settings.bind("popup-width", "popupWidth", Lang.bind(this, this._onStyleSettingsChanged));
         this.settings.bind("scroll-interval", "scrollInterval", Lang.bind(this, this._onScrollSettingsChanged));
@@ -239,6 +240,7 @@ class MemosApplet extends Applet.TextApplet {
 
     _updateStyles() {
         let fontSize = this.popupFontSize || 11;
+        let panelFontSize = this.panelFontSize || 10;
         let width = this.popupWidth || 300;
 
         let style = `font-size: ${fontSize}pt; min-width: ${width}px; max-width: ${width}px; text-align: left;`;
@@ -266,13 +268,14 @@ class MemosApplet extends Applet.TextApplet {
             }
         }
 
+        let panelStyle = `font-size: ${panelFontSize}pt; text-align: left;`;
         if (this.setPanelWidth) {
             let pWidth = this.panelWidth || 150;
-            this.actor.set_style(`min-width: ${pWidth}px; max-width: ${pWidth}px; width: ${pWidth}px; text-align: left;`);
+            panelStyle += ` min-width: ${pWidth}px; max-width: ${pWidth}px; width: ${pWidth}px;`;
+
             if (this._applet_label) this._applet_label.clutter_text.ellipsize = Pango.EllipsizeMode.END;
-        } else {
-            this.actor.set_style(null);
         }
+        this.actor.set_style(panelStyle);
     }
 
     _applyStyleToChild(rc, fontSize) {

@@ -35,6 +35,15 @@
         "units": "pt",
         "description": "Popup Font Size"
     },
+    "panel-font-size": {
+        "type": "spinbutton",
+        "default": 10,
+        "min": 6,
+        "max": 24,
+        "step": 1,
+        "units": "pt",
+        "description": "Panel Font Size"
+    },
     "popup-width": {
         "type": "spinbutton",
         "default": 300,
