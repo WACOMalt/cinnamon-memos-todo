@@ -14,12 +14,19 @@ const GLib = imports.gi.GLib;
 const Gio = imports.gi.Gio; // Needed for browser launch
 const Pango = imports.gi.Pango;
 const Clutter = imports.gi.Clutter; // Needed for event handling in entry
+const Gettext = imports.gettext;
+
+const UUID = "memos-todo@wacomalt";
+
+function _(str) {
+    return Gettext.dgettext(UUID, str);
+}
 
 class MemosApplet extends Applet.TextApplet {
     constructor(metadata, orientation, panel_height, instance_id) {
         super(orientation, panel_height, instance_id);
 
-        this.set_applet_label("Loading...");
+        this.set_applet_label(_("Loading..."));
         this.actor.set_clip_to_allocation(true);
 
         // Initialize state variables
@@ -55,7 +62,7 @@ class MemosApplet extends Applet.TextApplet {
 
         // Use a persistent status label that we don't destroy
         this.statusLabel = new St.Label({
-            text: "Loading...",
+            text: _("Loading..."),
             style_class: 'memo-popup-text',
             x_align: St.Align.START
         });
@@ -100,7 +107,7 @@ class MemosApplet extends Applet.TextApplet {
         let entryBin = new St.BoxLayout({ vertical: false, x_expand: true });
 
         this.addEntry = new St.Entry({
-            hint_text: "New task...",
+            hint_text: _("New task..."),
             can_focus: true,
             style_class: 'memo-add-entry',
             x_expand: true
@@ -136,7 +143,7 @@ class MemosApplet extends Applet.TextApplet {
             x_expand: true,
             x_align: St.Align.START
         });
-        this.browserLabel = new St.Label({ text: "Open in Browser", x_align: St.Align.START });
+        this.browserLabel = new St.Label({ text: _("Open in Browser"), x_align: St.Align.START });
         browserBtn.set_child(this.browserLabel);
         browserBtn.connect('clicked', () => this._openInBrowser());
 
@@ -302,7 +309,7 @@ class MemosApplet extends Applet.TextApplet {
 
     _updateAppletLabel() {
         if (!this.memoLines || this.memoLines.length === 0) {
-            this.set_applet_label("Empty Memo");
+            this.set_applet_label(_("Empty Memo"));
             return;
         }
 
@@ -313,7 +320,7 @@ class MemosApplet extends Applet.TextApplet {
 
         let line = this.memoLines[this.currentLineIndex];
         if (!line) {
-            this.set_applet_label("Empty Memo");
+            this.set_applet_label(_("Empty Memo"));
             return;
         }
 
@@ -382,7 +389,7 @@ class MemosApplet extends Applet.TextApplet {
                     let bytes = session.send_and_read_finish(result);
                     if (message.status_code !== 200) { this._handleError(`Error ${message.status_code}`); return; }
                     callback(new TextDecoder('utf-8').decode(bytes.get_data()));
-                } catch (e) { this._handleError("Connection Error"); }
+                } catch (e) { this._handleError(_("Connection Error")); }
             });
         }
     }
