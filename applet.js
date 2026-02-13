@@ -204,9 +204,7 @@ class MemosApplet extends Applet.TextApplet {
         // Apply to Bottom Bar
         if (this.browserLabel) this.browserLabel.set_style(`font-size: ${fontSize}pt; text-align: left;`);
         if (this.addLabel) this.addLabel.set_style(`font-size: ${fontSize}pt; text-align: left;`);
-        if (this.addEntry) this.addEntry.clutter_text.set_style(`font-size: ${fontSize}pt;`);
-        if (this.saveLabel) this.saveLabel.set_style(`font-size: ${fontSize}pt; text-align: left;`);
-        if (this.cancelLabel) this.cancelLabel.set_style(`font-size: ${fontSize}pt; text-align: left;`);
+        if (this.addEntry) this.addEntry.set_style(`font-size: ${fontSize}pt;`);
 
         if (this.itemsBox) {
             let children = this.itemsBox.get_children();
@@ -391,7 +389,10 @@ class MemosApplet extends Applet.TextApplet {
             this._buildPopupUI(content);
             if (this.currentLineIndex >= this.memoLines.length) this.currentLineIndex = 0;
             this._updateAppletLabel();
-        } catch (e) { this._handleError("Parse Error"); }
+        } catch (e) {
+            global.logError("Memos ToDo Parse Error: " + e.message);
+            this._handleError("Parse Error");
+        }
     }
 
     _buildPopupUI(content) {
