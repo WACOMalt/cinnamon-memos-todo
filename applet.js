@@ -116,8 +116,8 @@ class MemosApplet extends Applet.TextApplet {
             x_expand: true,
             x_align: St.Align.START
         });
-        let browserLabel = new St.Label({ text: "Open in Browser", x_align: St.Align.START });
-        browserBtn.set_child(browserLabel);
+        this.browserLabel = new St.Label({ text: "Open in Browser", x_align: St.Align.START });
+        browserBtn.set_child(this.browserLabel);
         browserBtn.connect('clicked', Lang.bind(this, this._openInBrowser));
 
         let addBtn = new St.Button({
@@ -126,8 +126,8 @@ class MemosApplet extends Applet.TextApplet {
             can_focus: true,
             x_expand: false
         });
-        let addLabel = new St.Label({ text: " + " });
-        addBtn.set_child(addLabel);
+        this.addLabel = new St.Label({ text: " + " });
+        addBtn.set_child(this.addLabel);
         addBtn.connect('clicked', Lang.bind(this, this._showAddEntry));
 
         this.bottomBarViewBox.add(browserBtn, { expand: true, x_fill: true, y_fill: false });
@@ -165,8 +165,8 @@ class MemosApplet extends Applet.TextApplet {
             reactive: true,
             can_focus: true
         });
-        let saveLabel = new St.Label({ text: "Save" });
-        saveBtn.set_child(saveLabel);
+        this.saveLabel = new St.Label({ text: "Save" });
+        saveBtn.set_child(this.saveLabel);
         saveBtn.connect('clicked', Lang.bind(this, this._saveNewItem));
 
         let cancelBtn = new St.Button({
@@ -174,8 +174,8 @@ class MemosApplet extends Applet.TextApplet {
             reactive: true,
             can_focus: true
         });
-        let cancelLabel = new St.Label({ text: " X " });
-        cancelBtn.set_child(cancelLabel);
+        this.cancelLabel = new St.Label({ text: " X " });
+        cancelBtn.set_child(this.cancelLabel);
         cancelBtn.connect('clicked', Lang.bind(this, this._hideAddEntry));
 
         this.bottomBarEditBox.add(this.addEntry, { expand: true, x_fill: true, y_fill: false });
@@ -245,6 +245,12 @@ class MemosApplet extends Applet.TextApplet {
         if (this.statusLabel && !this.statusLabel.is_finalizing) {
             this.statusLabel.set_style(style);
         }
+
+        // Apply to Bottom Bar
+        if (this.browserLabel) this.browserLabel.set_style(`font-size: ${fontSize}pt; text-align: left;`);
+        if (this.addLabel) this.addLabel.set_style(`font-size: ${fontSize}pt; text-align: left;`);
+        if (this.saveLabel) this.saveLabel.set_style(`font-size: ${fontSize}pt; text-align: left;`);
+        if (this.cancelLabel) this.cancelLabel.set_style(`font-size: ${fontSize}pt; text-align: left;`);
 
         if (this.itemsBox) {
             let children = this.itemsBox.get_children();
