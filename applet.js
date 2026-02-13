@@ -152,10 +152,7 @@ class MemosApplet extends Applet.TextApplet {
 
     _saveNewItem() {
         let text = this.addEntry.get_text().trim();
-        if (!text) {
-            this._hideAddEntry();
-            return;
-        }
+        if (!text) return;
 
         let newLine = `☐ ${text}`;
         let fullLines = [];
@@ -167,8 +164,11 @@ class MemosApplet extends Applet.TextApplet {
 
         let newContent = (fullLines.length === 0) ? newLine : fullLines.join('\n') + '\n' + newLine;
         this._patchMemo(newContent);
-        this._hideAddEntry();
+        this.addEntry.set_text("");
         this._buildPopupUI(newContent);
+
+        // Immediate panel sync
+        this._parseResponse(JSON.stringify({ content: newContent }));
     }
 
     _bindSettings() {
@@ -455,12 +455,18 @@ class MemosApplet extends Applet.TextApplet {
         item.lines[0] = (item.checked ? "☑ " : "☐ ") + item.lines[0].substring(2);
         if (item.labelActor) item.labelActor.set_text(item.lines.join('\n'));
         this._dirty = true;
+
+        // Immediate panel sync
+        let content = this.items.map(it => it.lines.join('\n')).join('\n');
+        this._parseResponse(JSON.stringify({ content: content }));
     }
 
     _onDeleteClicked(index) {
         this.items.splice(index, 1);
         this._dirty = true;
-        this._buildPopupUI(this.items.map(it => it.lines.join('\n')).join('\n'));
+        let content = this.items.map(it => it.lines.join('\n')).join('\n');
+        this._buildPopupUI(content);
+        this._parseResponse(JSON.stringify({ content: content }));
     }
 
     on_applet_clicked(event) { this.menu.toggle(); }
