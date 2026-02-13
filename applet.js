@@ -55,9 +55,19 @@ class MemosApplet extends Applet.TextApplet {
         this.menu.addActor(this.scrollView);
 
         this.contentBox = new St.BoxLayout({ vertical: true, style_class: 'memo-popup-content' });
-        this.contentLabel = new St.Label({ text: "Loading...", style_class: 'memo-popup-text' });
 
-        this.contentBox.add(this.contentLabel);
+        // Use a persistent status label that we don't destroy
+        this.statusLabel = new St.Label({
+            text: "Loading...",
+            style_class: 'memo-popup-text',
+            x_align: St.Align.START
+        });
+        this.contentBox.add(this.statusLabel);
+
+        // Sub-container for actual items (this one we CAN destroy children of)
+        this.itemsBox = new St.BoxLayout({ vertical: true, x_expand: true });
+        this.contentBox.add(this.itemsBox);
+
         this.scrollView.add_actor(this.contentBox);
 
         // Apply initial styles from settings
@@ -86,7 +96,6 @@ class MemosApplet extends Applet.TextApplet {
         // Container Menu Item
         this.bottomBarItem = new PopupMenu.PopupBaseMenuItem({ reactive: true });
 
-        // CRITICAL: Prevent the item from closing the menu when clicked
         this.bottomBarItem.activate = function (event) {
             return false;
         };
@@ -100,18 +109,17 @@ class MemosApplet extends Applet.TextApplet {
             x_expand: true
         });
 
-        // Open Browser Link
         let browserBtn = new St.Button({
             style_class: 'memo-bottom-button',
             reactive: true,
             can_focus: true,
-            x_expand: true
+            x_expand: true,
+            x_align: St.Align.START
         });
-        let browserLabel = new St.Label({ text: "Open in Browser" });
+        let browserLabel = new St.Label({ text: "Open in Browser", x_align: St.Align.START });
         browserBtn.set_child(browserLabel);
         browserBtn.connect('clicked', Lang.bind(this, this._openInBrowser));
 
-        // Add Button (+)
         let addBtn = new St.Button({
             style_class: 'memo-bottom-button',
             reactive: true,
@@ -139,7 +147,6 @@ class MemosApplet extends Applet.TextApplet {
             style_class: 'memo-add-entry',
             x_expand: true
         });
-        // Handle Enter key
         this.addEntry.clutter_text.connect('key-press-event', Lang.bind(this, (actor, event) => {
             let symbol = event.get_key_symbol();
             if (symbol === Clutter.KEY_Return || symbol === Clutter.KEY_KP_Enter) {
@@ -177,10 +184,7 @@ class MemosApplet extends Applet.TextApplet {
 
         container.add_actor(this.bottomBarViewBox);
         container.add_actor(this.bottomBarEditBox);
-
-        // Standard way to add a full-width actor to a MenuItem logic
         this.bottomBarItem.addActor(container, { expand: true, span: -1 });
-
         this.menu.addMenuItem(this.bottomBarItem);
     }
 
@@ -211,18 +215,9 @@ class MemosApplet extends Applet.TextApplet {
             }
         }
 
-        let newContent = "";
-        if (fullLines.length === 0) {
-            newContent = newLine;
-        } else {
-            newContent = fullLines.join('\n') + '\n' + newLine;
-        }
-
-        // Patch immediately
+        let newContent = (fullLines.length === 0) ? newLine : fullLines.join('\n') + '\n' + newLine;
         this._patchMemo(newContent);
         this._hideAddEntry();
-
-        // Optimistic refresh
         this._buildPopupUI(newContent);
     }
 
@@ -231,53 +226,36 @@ class MemosApplet extends Applet.TextApplet {
         this.settings.bind("auth-token", "authToken", Lang.bind(this, this._onSettingsChanged));
         this.settings.bind("memo-id", "memoId", Lang.bind(this, this._onSettingsChanged));
         this.settings.bind("refresh-interval", "refreshInterval", Lang.bind(this, this._onSettingsChanged));
-
         this.settings.bind("popup-font-size", "popupFontSize", Lang.bind(this, this._onStyleSettingsChanged));
         this.settings.bind("popup-width", "popupWidth", Lang.bind(this, this._onStyleSettingsChanged));
         this.settings.bind("scroll-interval", "scrollInterval", Lang.bind(this, this._onScrollSettingsChanged));
-
         this.settings.bind("set-panel-width", "setPanelWidth", Lang.bind(this, this._onStyleSettingsChanged));
         this.settings.bind("panel-width", "panelWidth", Lang.bind(this, this._onStyleSettingsChanged));
     }
 
-    _onSettingsChanged() {
-        this._fetchMemo();
-    }
-
-    _onStyleSettingsChanged() {
-        this._updateStyles();
-    }
-
-    _onScrollSettingsChanged() {
-        this._startScrollLoop();
-    }
+    _onSettingsChanged() { this._fetchMemo(); }
+    _onStyleSettingsChanged() { this._updateStyles(); }
+    _onScrollSettingsChanged() { this._startScrollLoop(); }
 
     _updateStyles() {
         let fontSize = this.popupFontSize || 11;
         let width = this.popupWidth || 300;
 
         let style = `font-size: ${fontSize}pt; min-width: ${width}px; max-width: ${width}px; text-align: left;`;
-        this.contentLabel.set_style(style);
+        if (this.statusLabel && !this.statusLabel.is_finalizing) {
+            this.statusLabel.set_style(style);
+        }
 
-        if (this.contentBox) {
-            let children = this.contentBox.get_children();
+        if (this.itemsBox) {
+            let children = this.itemsBox.get_children();
             for (let child of children) {
-                // Handle new row containers (BoxLayout)
                 if (child instanceof St.BoxLayout) {
                     let rowChildren = child.get_children();
                     for (let rc of rowChildren) {
-                        if (rc._isTodoButton && rc.get_child()) {
-                            rc.get_child().set_style(`font-size: ${fontSize}pt; text-align: left;`);
-                        } else if (rc instanceof St.Label && rc !== this.contentLabel) {
-                            rc.set_style(`font-size: ${fontSize}pt; text-align: left;`);
-                        }
+                        this._applyStyleToChild(rc, fontSize);
                     }
-                } else if (child._isTodoButton) {
-                    if (child.get_child()) {
-                        child.get_child().set_style(`font-size: ${fontSize}pt; text-align: left;`);
-                    }
-                } else if (child instanceof St.Label && child !== this.contentLabel) {
-                    child.set_style(`font-size: ${fontSize}pt; text-align: left;`);
+                } else {
+                    this._applyStyleToChild(child, fontSize);
                 }
             }
         }
@@ -285,12 +263,21 @@ class MemosApplet extends Applet.TextApplet {
         if (this.setPanelWidth) {
             let pWidth = this.panelWidth || 150;
             this.actor.set_style(`min-width: ${pWidth}px; max-width: ${pWidth}px; width: ${pWidth}px; text-align: left;`);
-
-            if (this._applet_label) {
-                this._applet_label.clutter_text.ellipsize = Pango.EllipsizeMode.END;
-            }
+            if (this._applet_label) this._applet_label.clutter_text.ellipsize = Pango.EllipsizeMode.END;
         } else {
             this.actor.set_style(null);
+        }
+    }
+
+    _applyStyleToChild(rc, fontSize) {
+        if (rc.is_finalizing) return;
+        if (rc._isTodoButton && rc.get_child()) {
+            rc.get_child().set_style(`font-size: ${fontSize}pt; text-align: left;`);
+            rc.get_child().set_x_align(St.Align.START); // DEEPER ALIGN
+            rc.set_x_align(St.Align.START);
+        } else if (rc instanceof St.Label) {
+            rc.set_style(`font-size: ${fontSize}pt; text-align: left;`);
+            rc.set_x_align(St.Align.START);
         }
     }
 
@@ -298,24 +285,13 @@ class MemosApplet extends Applet.TextApplet {
         this._fetchMemo();
         let interval = this.refreshInterval || 10;
         if (interval < 1) interval = 1;
-
-        if (this._timeoutId) {
-            Mainloop.source_remove(this._timeoutId);
-            this._timeoutId = null;
-        }
-
+        if (this._timeoutId) Mainloop.source_remove(this._timeoutId);
         this._timeoutId = Mainloop.timeout_add_seconds(interval * 60, Lang.bind(this, this._updateLoop));
     }
 
     _startScrollLoop() {
-        if (this._scrollTimeoutId) {
-            Mainloop.source_remove(this._scrollTimeoutId);
-            this._scrollTimeoutId = null;
-        }
-
+        if (this._scrollTimeoutId) Mainloop.source_remove(this._scrollTimeoutId);
         let interval = this.scrollInterval || 5;
-        if (interval < 1) interval = 1;
-
         this._scrollTimeoutId = Mainloop.timeout_add_seconds(interval, Lang.bind(this, this._scrollLoop));
     }
 
@@ -332,10 +308,8 @@ class MemosApplet extends Applet.TextApplet {
             this.set_applet_label("Empty Memo");
             return;
         }
-
         let line = this.memoLines[this.currentLineIndex];
         if (line.length > 100) line = line.substring(0, 97) + "...";
-
         this.set_applet_label(line);
         this.set_applet_tooltip(line);
     }
@@ -344,246 +318,149 @@ class MemosApplet extends Applet.TextApplet {
         if (!this.serverUrl || !this.memoId) return;
         let url = this.serverUrl.replace(/\/$/, "");
         let targetUrl = `${url}/m/${this.memoId}`;
-        try {
-            Gio.app_info_launch_default_for_uri(targetUrl, null);
-        } catch (e) {
-            global.logError("Error opening browser: " + e);
-        }
+        try { Gio.app_info_launch_default_for_uri(targetUrl, null); } catch (e) { global.logError(e); }
     }
 
     _onMenuOpenStateChanged(menu, open) {
         if (!open) {
             this._hideAddEntry();
-            if (this._dirty) {
-                this._saveChanges();
-            }
+            if (this._dirty) this._saveChanges();
         }
     }
 
     _saveChanges() {
         let fullLines = [];
-        for (let it of this.items) {
-            for (let l of it.lines) {
-                fullLines.push(l);
-            }
-        }
-
-        let newContent = fullLines.join('\n');
-        this._patchMemo(newContent);
+        for (let it of this.items) for (let l of it.lines) fullLines.push(l);
+        this._patchMemo(fullLines.join('\n'));
         this._dirty = false;
     }
 
     _fetchMemo() {
         if (!this.serverUrl || !this.authToken || !this.memoId) {
             this.set_applet_label("Configure Settings");
-            this.contentLabel.set_text("Please configure Server URL, Token and Memo ID in settings.");
+            this.statusLabel.set_text("Please configure Server URL, Token and Memo ID in settings.");
+            this.statusLabel.show();
             return;
         }
-
-        let url = this.serverUrl.replace(/\/$/, "");
-        let apiUrl = `${url}/api/v1/memos/${this.memoId}`;
-
+        let apiUrl = `${this.serverUrl.replace(/\/$/, "")}/api/v1/memos/${this.memoId}`;
         let message = Soup.Message.new('GET', apiUrl);
         message.request_headers.append('Authorization', `Bearer ${this.authToken}`);
         message.request_headers.append('Accept', 'application/json');
-
         this._sendRequest(message, (text) => this._parseResponse(text));
     }
 
     _patchMemo(newContent) {
         if (!this.serverUrl || !this.authToken || !this.memoId) return;
-
-        let url = this.serverUrl.replace(/\/$/, "");
-        let apiUrl = `${url}/api/v1/memos/${this.memoId}`;
-
+        let apiUrl = `${this.serverUrl.replace(/\/$/, "")}/api/v1/memos/${this.memoId}`;
         let message = Soup.Message.new('PATCH', apiUrl);
         message.request_headers.append('Authorization', `Bearer ${this.authToken}`);
         message.request_headers.append('Content-Type', 'application/json');
-
         let body = JSON.stringify({ content: newContent });
-
-        if (Soup.MAJOR_VERSION === 2) {
-            message.set_request('application/json', 2, body);
-        } else {
-            message.set_request_body_from_bytes('application/json', new GLib.Bytes(body));
-        }
-
-        this._sendRequest(message, (text) => {
-            this._parseResponse(text);
-        });
+        if (Soup.MAJOR_VERSION === 2) message.set_request('application/json', 2, body);
+        else message.set_request_body_from_bytes('application/json', new GLib.Bytes(body));
+        this._sendRequest(message, (text) => this._parseResponse(text));
     }
 
     _sendRequest(message, callback) {
         if (Soup.MAJOR_VERSION === 2) {
             this._httpSession.queue_message(message, (session, msg) => {
-                if (msg.status_code !== 200) {
-                    this._handleError(`Error ${msg.status_code}`);
-                    return;
-                }
-                if (msg.response_body.data) {
-                    callback(msg.response_body.data);
-                }
+                if (msg.status_code !== 200) { this._handleError(`Error ${msg.status_code}`); return; }
+                if (msg.response_body.data) callback(msg.response_body.data);
             });
         } else {
             this._httpSession.send_and_read_async(message, GLib.PRIORITY_DEFAULT, null, (session, result) => {
                 try {
                     let bytes = session.send_and_read_finish(result);
-                    if (message.status_code !== 200) {
-                        this._handleError(`Error ${message.status_code}`);
-                        return;
-                    }
-                    let decoder = new TextDecoder('utf-8');
-                    let text = decoder.decode(bytes.get_data());
-                    callback(text);
-                } catch (e) {
-                    this._handleError("Connection Error");
-                }
+                    if (message.status_code !== 200) { this._handleError(`Error ${message.status_code}`); return; }
+                    callback(new TextDecoder('utf-8').decode(bytes.get_data()));
+                } catch (e) { this._handleError("Connection Error"); }
             });
         }
     }
 
     _handleError(msg) {
         this.set_applet_label(msg);
-        this.contentLabel.set_text(msg);
+        this.statusLabel.set_text(msg);
+        this.statusLabel.show();
         this.memoLines = [];
     }
 
     _parseResponse(jsonString) {
         try {
             let data = JSON.parse(jsonString);
-
             let content = data.content || (data.memo && data.memo.content) || "";
-
             if (this._dirty) return;
-
             this.memoLines = content.split('\n').map(l => l.trim()).filter(l => l.length > 0);
-
             this._buildPopupUI(content);
-
-            if (this.currentLineIndex >= this.memoLines.length) {
-                this.currentLineIndex = 0;
-            }
+            if (this.currentLineIndex >= this.memoLines.length) this.currentLineIndex = 0;
             this._updateAppletLabel();
-
-        } catch (e) {
-            this._handleError("Parse Error");
-        }
+        } catch (e) { this._handleError("Parse Error"); }
     }
 
     _buildPopupUI(content) {
-        this.contentBox.destroy_all_children();
+        this.itemsBox.destroy_all_children();
+        this.statusLabel.hide();
         this.items = [];
-
         let lines = content.split('\n');
         let currentItem = null;
-
         for (let line of lines) {
             let isTodoStart = line.startsWith("☐ ") || line.startsWith("☑ ");
-
             if (isTodoStart) {
-                currentItem = {
-                    type: 'todo',
-                    checked: line.startsWith("☑ "),
-                    lines: [line]
-                };
+                currentItem = { type: 'todo', checked: line.startsWith("☑ "), lines: [line] };
                 this.items.push(currentItem);
             } else {
-                if (currentItem) {
-                    currentItem.lines.push(line);
-                } else {
-                    currentItem = { type: 'text', lines: [line] };
-                    this.items.push(currentItem);
-                }
+                if (currentItem) currentItem.lines.push(line);
+                else { currentItem = { type: 'text', lines: [line] }; this.items.push(currentItem); }
             }
         }
 
-        for (let i = 0; i < this.items.length; i++) {
-            let item = this.items[i];
+        this.items.forEach((item, i) => {
             let text = item.lines.join('\n');
-
             if (item.type === 'text') {
-                let label = new St.Label({ text: text, style_class: 'memo-popup-text' });
-                label.set_style("text-align: left;");
+                let label = new St.Label({ text: text, style_class: 'memo-popup-text', x_align: St.Align.START });
                 label.clutter_text.line_wrap = true;
                 label.clutter_text.line_wrap_mode = Pango.WrapMode.WORD_CHAR;
-                this.contentBox.add(label);
-            } else if (item.type === 'todo') {
+                this.itemsBox.add(label);
+            } else {
                 let itemBox = new St.BoxLayout({ vertical: false, x_expand: true });
-
-                let btn = new St.Button({
-                    style_class: 'memo-todo-button',
-                    reactive: true,
-                    can_focus: true,
-                    x_expand: true
-                });
+                let btn = new St.Button({ style_class: 'memo-todo-button', reactive: true, can_focus: true, x_expand: true, x_align: St.Align.START });
                 btn._isTodoButton = true;
-
-                let btnLabel = new St.Label({ text: text, style_class: 'memo-popup-text' });
-                btnLabel.set_style("text-align: left;");
+                let btnLabel = new St.Label({ text: text, style_class: 'memo-popup-text', x_align: St.Align.START });
                 btnLabel.clutter_text.line_wrap = true;
                 btnLabel.clutter_text.line_wrap_mode = Pango.WrapMode.WORD_CHAR;
-
                 btn.set_child(btnLabel);
                 item.labelActor = btnLabel;
-
-                let index = i;
-                btn.connect('clicked', Lang.bind(this, () => this._onTodoClicked(index)));
-
-                let deleteBtn = new St.Button({
-                    style_class: 'memo-delete-button',
-                    reactive: true,
-                    can_focus: true,
-                    x_expand: false
-                });
+                btn.connect('clicked', Lang.bind(this, () => this._onTodoClicked(i)));
+                let deleteBtn = new St.Button({ style_class: 'memo-delete-button', reactive: true, can_focus: true, x_expand: false });
                 deleteBtn.set_child(new St.Label({ text: " 🗑 " }));
-                deleteBtn.connect('clicked', Lang.bind(this, () => this._onDeleteClicked(index)));
-
+                deleteBtn.connect('clicked', Lang.bind(this, () => this._onDeleteClicked(i)));
                 itemBox.add(btn, { expand: true, x_fill: true, y_fill: false });
                 itemBox.add(deleteBtn, { expand: false, x_fill: false, y_fill: false });
-
-                this.contentBox.add(itemBox);
+                this.itemsBox.add(itemBox);
             }
-        }
-
+        });
         this._updateStyles();
     }
 
     _onTodoClicked(index) {
         let item = this.items[index];
         if (!item || item.type !== 'todo') return;
-
         item.checked = !item.checked;
         item.lines[0] = (item.checked ? "☑ " : "☐ ") + item.lines[0].substring(2);
-
-        if (item.labelActor) {
-            item.labelActor.set_text(item.lines.join('\n'));
-        }
-
+        if (item.labelActor) item.labelActor.set_text(item.lines.join('\n'));
         this._dirty = true;
     }
 
     _onDeleteClicked(index) {
         this.items.splice(index, 1);
         this._dirty = true;
-
-        // Rebuild content string from remaining items
-        let newContent = this.items.map(it => it.lines.join('\n')).join('\n');
-        this._buildPopupUI(newContent);
+        this._buildPopupUI(this.items.map(it => it.lines.join('\n')).join('\n'));
     }
 
-    on_applet_clicked(event) {
-        this.menu.toggle();
-    }
-
+    on_applet_clicked(event) { this.menu.toggle(); }
     on_applet_removed_from_panel() {
-        if (this._timeoutId) {
-            Mainloop.source_remove(this._timeoutId);
-            this._timeoutId = null;
-        }
-        if (this._scrollTimeoutId) {
-            Mainloop.source_remove(this._scrollTimeoutId);
-            this._scrollTimeoutId = null;
-        }
+        if (this._timeoutId) Mainloop.source_remove(this._timeoutId);
+        if (this._scrollTimeoutId) Mainloop.source_remove(this._scrollTimeoutId);
         this.settings.finalize();
     }
 }
