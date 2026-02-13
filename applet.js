@@ -94,30 +94,28 @@ class MemosApplet extends Applet.TextApplet {
     _buildBottomBar() {
         // Container Menu Item
         this.bottomBarItem = new PopupMenu.PopupBaseMenuItem({ reactive: true });
+        this.bottomBarItem.activate = () => false;
 
-        this.bottomBarItem.activate = function (event) {
-            return false;
-        };
+        let container = new St.BoxLayout({ vertical: true, x_expand: true, style_class: 'memo-bottom-bar' });
 
-        let container = new St.BoxLayout({ vertical: true, x_expand: true });
+        // Row 1: [ Entry ] [+]
+        let entryBin = new St.BoxLayout({ vertical: false, x_expand: true });
 
-        // 1. View Mode: [Open in Browser]   [+]
-        this.bottomBarViewBox = new St.BoxLayout({
-            vertical: false,
-            style_class: 'memo-bottom-bar',
+        this.addEntry = new St.Entry({
+            hint_text: "New task...",
+            can_focus: true,
+            style_class: 'memo-add-entry',
             x_expand: true
         });
 
-        let browserBtn = new St.Button({
-            style_class: 'memo-bottom-button',
-            reactive: true,
-            can_focus: true,
-            x_expand: true,
-            x_align: St.Align.START
+        this.addEntry.clutter_text.connect('key-press-event', (actor, event) => {
+            let symbol = event.get_key_symbol();
+            if (symbol === Clutter.KEY_Return || symbol === Clutter.KEY_KP_Enter) {
+                this._saveNewItem();
+                return true;
+            }
+            return false;
         });
-        this.browserLabel = new St.Label({ text: "Open in Browser", x_align: St.Align.START });
-        browserBtn.set_child(this.browserLabel);
-        browserBtn.connect('clicked', Lang.bind(this, this._openInBrowser));
 
         let addBtn = new St.Button({
             style_class: 'memo-bottom-button',
@@ -127,77 +125,30 @@ class MemosApplet extends Applet.TextApplet {
         });
         this.addLabel = new St.Label({ text: " + " });
         addBtn.set_child(this.addLabel);
-        addBtn.connect('clicked', Lang.bind(this, this._showAddEntry));
+        addBtn.connect('clicked', () => this._saveNewItem());
 
-        this.bottomBarViewBox.add(browserBtn, { expand: true, x_fill: true, y_fill: false });
-        this.bottomBarViewBox.add(addBtn, { expand: false, x_fill: false, y_fill: false });
+        entryBin.add(this.addEntry, { expand: true, x_fill: true, y_fill: false });
+        entryBin.add(addBtn, { expand: false, x_fill: false, y_fill: false });
 
-        // 2. Edit Mode: [ Entry ] [Save] [X]
-        this.bottomBarEditBox = new St.BoxLayout({
-            vertical: false,
-            style_class: 'memo-bottom-bar',
-            x_expand: true
-        });
-        this.bottomBarEditBox.hide();
-
-        this.addEntry = new St.Entry({
-            hint_text: "New task...",
+        // Row 2: [Open in Browser]
+        let browserBtn = new St.Button({
+            style_class: 'memo-bottom-button',
+            reactive: true,
             can_focus: true,
-            style_class: 'memo-add-entry',
-            x_expand: true
+            x_expand: true,
+            x_align: St.Align.START
         });
-        this.addEntry.clutter_text.connect('key-press-event', Lang.bind(this, (actor, event) => {
-            let symbol = event.get_key_symbol();
-            if (symbol === Clutter.KEY_Return || symbol === Clutter.KEY_KP_Enter) {
-                this._saveNewItem();
-                return true;
-            }
-            if (symbol === Clutter.KEY_Escape) {
-                this._hideAddEntry();
-                return true;
-            }
-            return false;
-        }));
+        this.browserLabel = new St.Label({ text: "Open in Browser", x_align: St.Align.START });
+        browserBtn.set_child(this.browserLabel);
+        browserBtn.connect('clicked', () => this._openInBrowser());
 
-        let saveBtn = new St.Button({
-            style_class: 'memo-bottom-button',
-            reactive: true,
-            can_focus: true
-        });
-        this.saveLabel = new St.Label({ text: "Save" });
-        saveBtn.set_child(this.saveLabel);
-        saveBtn.connect('clicked', Lang.bind(this, this._saveNewItem));
+        container.add_actor(entryBin);
+        container.add_actor(browserBtn);
 
-        let cancelBtn = new St.Button({
-            style_class: 'memo-bottom-button',
-            reactive: true,
-            can_focus: true
-        });
-        this.cancelLabel = new St.Label({ text: " X " });
-        cancelBtn.set_child(this.cancelLabel);
-        cancelBtn.connect('clicked', Lang.bind(this, this._hideAddEntry));
-
-        this.bottomBarEditBox.add(this.addEntry, { expand: true, x_fill: true, y_fill: false });
-        this.bottomBarEditBox.add(saveBtn, { expand: false, x_fill: false, y_fill: false });
-        this.bottomBarEditBox.add(cancelBtn, { expand: false, x_fill: false, y_fill: false });
-
-        container.add_actor(this.bottomBarViewBox);
-        container.add_actor(this.bottomBarEditBox);
         this.bottomBarItem.addActor(container, { expand: true, span: -1 });
         this.menu.addMenuItem(this.bottomBarItem);
     }
 
-    _showAddEntry() {
-        this.bottomBarViewBox.hide();
-        this.bottomBarEditBox.show();
-        this.addEntry.grab_key_focus();
-        this.addEntry.set_text("");
-    }
-
-    _hideAddEntry() {
-        this.bottomBarEditBox.hide();
-        this.bottomBarViewBox.show();
-    }
 
     _saveNewItem() {
         let text = this.addEntry.get_text().trim();
