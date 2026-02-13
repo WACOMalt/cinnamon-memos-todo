@@ -19,7 +19,7 @@ class MemosApplet extends Applet.TextApplet {
     constructor(metadata, orientation, panel_height, instance_id) {
         super(orientation, panel_height, instance_id);
 
-        this.set_applet_tooltip("Memos ToDo");
+        this.set_applet_tooltip("Click to view to-do list");
         this.set_applet_label("Loading...");
 
         // Initialize state variables
@@ -349,7 +349,6 @@ class MemosApplet extends Applet.TextApplet {
         let line = this.memoLines[this.currentLineIndex];
         if (line.length > 100) line = line.substring(0, 97) + "...";
         this.set_applet_label(line);
-        this.set_applet_tooltip(line);
     }
 
     _openInBrowser() {
