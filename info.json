@@ -1,7 +1,7 @@
 {
     "uuid": "memos-todo@wacomalt",
     "name": "Memos ToDo",
-    "description": "Displays and interacts with a specific memo from UseMemos",
+    "description": "Displays an interactive ToDo list powered by a UseMemos server. Requires UseMemos Server and a memo ID",
     "author": "WACOMalt",
     "version": "1.0",
     "url": "https://github.com/WACOMalt/cinnamon-memos-todo"
