@@ -232,6 +232,8 @@ class MemosApplet extends Applet.TextApplet {
         this.settings.bind("scroll-interval", "scrollInterval", Lang.bind(this, this._onScrollSettingsChanged));
         this.settings.bind("set-panel-width", "setPanelWidth", Lang.bind(this, this._onStyleSettingsChanged));
         this.settings.bind("panel-width", "panelWidth", Lang.bind(this, this._onStyleSettingsChanged));
+        this.settings.bind("show-completed-panel", "showCompletedPanel", Lang.bind(this, this._onSettingsChanged));
+        this.settings.bind("show-completed-popup", "showCompletedPopup", Lang.bind(this, this._onSettingsChanged));
     }
 
     _onSettingsChanged() { this._fetchMemo(); }
@@ -399,7 +401,16 @@ class MemosApplet extends Applet.TextApplet {
             let data = JSON.parse(jsonString);
             let content = data.content || (data.memo && data.memo.content) || "";
             if (this._dirty) return;
-            this.memoLines = content.split('\n').map(l => l.trim()).filter(l => l.length > 0);
+
+            let allLines = content.split('\n').map(l => l.trim()).filter(l => l.length > 0);
+
+            // Filter panel lines
+            if (!this.showCompletedPanel) {
+                this.memoLines = allLines.filter(l => !l.startsWith("☑ "));
+            } else {
+                this.memoLines = allLines;
+            }
+
             this._buildPopupUI(content);
             if (this.currentLineIndex >= this.memoLines.length) this.currentLineIndex = 0;
             this._updateAppletLabel();
@@ -413,13 +424,21 @@ class MemosApplet extends Applet.TextApplet {
         let lines = content.split('\n');
         let currentItem = null;
         for (let line of lines) {
-            let isTodoStart = line.startsWith("☐ ") || line.startsWith("☑ ");
+            let lineTrim = line.trim();
+            if (lineTrim === "") continue;
+
+            let isTodoStart = lineTrim.startsWith("☐ ") || lineTrim.startsWith("☑ ");
             if (isTodoStart) {
-                currentItem = { type: 'todo', checked: line.startsWith("☑ "), lines: [line] };
+                let checked = lineTrim.startsWith("☑ ");
+                if (!this.showCompletedPopup && checked) {
+                    currentItem = null; // Don't append content to a hidden todo
+                    continue;
+                }
+                currentItem = { type: 'todo', checked: checked, lines: [lineTrim] };
                 this.items.push(currentItem);
             } else {
-                if (currentItem) currentItem.lines.push(line);
-                else { currentItem = { type: 'text', lines: [line] }; this.items.push(currentItem); }
+                if (currentItem) currentItem.lines.push(lineTrim);
+                else { currentItem = { type: 'text', lines: [lineTrim] }; this.items.push(currentItem); }
             }
         }
 

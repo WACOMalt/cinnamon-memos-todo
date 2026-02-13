@@ -77,5 +77,15 @@
         "units": "px",
         "description": "Panel Width",
         "dependency": "set-panel-width"
+    },
+    "show-completed-panel": {
+        "type": "checkbox",
+        "default": true,
+        "description": "Show completed tasks in panel"
+    },
+    "show-completed-popup": {
+        "type": "checkbox",
+        "default": true,
+        "description": "Show completed tasks in popup"
     }
 }
