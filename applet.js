@@ -165,10 +165,9 @@ class MemosApplet extends Applet.TextApplet {
         let newContent = (fullLines.length === 0) ? newLine : fullLines.join('\n') + '\n' + newLine;
         this._patchMemo(newContent);
         this.addEntry.set_text("");
-        this._buildPopupUI(newContent);
 
-        // Immediate panel sync
-        this._parseResponse(JSON.stringify({ content: newContent }));
+        // Immediate panel/UI sync
+        this._parseResponse(JSON.stringify({ content: newContent }), true);
     }
 
     _bindSettings() {
@@ -371,11 +370,11 @@ class MemosApplet extends Applet.TextApplet {
         this.memoLines = [];
     }
 
-    _parseResponse(jsonString) {
+    _parseResponse(jsonString, force = false) {
         try {
             let data = JSON.parse(jsonString);
             let content = data.content || (data.memo && data.memo.content) || "";
-            if (this._dirty) return;
+            if (this._dirty && !force) return;
 
             let allLines = content.split('\n').map(l => l.trim()).filter(l => l.length > 0);
 
@@ -458,15 +457,14 @@ class MemosApplet extends Applet.TextApplet {
 
         // Immediate panel sync
         let content = this.items.map(it => it.lines.join('\n')).join('\n');
-        this._parseResponse(JSON.stringify({ content: content }));
+        this._parseResponse(JSON.stringify({ content: content }), true);
     }
 
     _onDeleteClicked(index) {
         this.items.splice(index, 1);
         this._dirty = true;
         let content = this.items.map(it => it.lines.join('\n')).join('\n');
-        this._buildPopupUI(content);
-        this._parseResponse(JSON.stringify({ content: content }));
+        this._parseResponse(JSON.stringify({ content: content }), true);
     }
 
     on_applet_clicked(event) { this.menu.toggle(); }
