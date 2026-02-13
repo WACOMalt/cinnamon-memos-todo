@@ -231,14 +231,19 @@ class MemosApplet extends Applet.TextApplet {
     }
 
     _applyStyleToChild(rc, fontSize) {
-        if (rc.is_finalizing) return;
-        if (rc._isTodoButton && rc.get_child()) {
-            rc.get_child().set_style(`font-size: ${fontSize}pt; text-align: left;`);
-            rc.get_child().set_x_align(St.Align.START); // DEEPER ALIGN
-            rc.set_x_align(St.Align.START);
+        if (!rc || rc.is_finalizing) return;
+        let style = `font-size: ${fontSize}pt; text-align: left;`;
+
+        if (rc._isTodoButton) {
+            let child = rc.get_child();
+            if (child) {
+                child.set_style(style);
+                if ('x_align' in child) child.x_align = St.Align.START;
+            }
+            if ('x_align' in rc) rc.x_align = St.Align.START;
         } else if (rc instanceof St.Label) {
-            rc.set_style(`font-size: ${fontSize}pt; text-align: left;`);
-            rc.set_x_align(St.Align.START);
+            rc.set_style(style);
+            if ('x_align' in rc) rc.x_align = St.Align.START;
         }
     }
 
