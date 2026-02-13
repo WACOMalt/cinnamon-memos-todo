@@ -1,0 +1,72 @@
+{
+    "server-url": {
+        "type": "entry",
+        "default": "https://memos.example.com",
+        "description": "Server URL (e.g., https://memos.example.com)",
+        "tooltip": "The base URL of your Memos server"
+    },
+    "auth-token": {
+        "type": "entry",
+        "default": "",
+        "description": "Authentication Token",
+        "tooltip": "Your API Access Token (Bearer token not including 'Bearer ' prefix)"
+    },
+    "memo-id": {
+        "type": "entry",
+        "default": "1",
+        "description": "Memo ID to display",
+        "tooltip": "The ID of the memo you want to show (found in the memo URL or details)"
+    },
+    "refresh-interval": {
+        "type": "spinbutton",
+        "default": 10,
+        "min": 1,
+        "max": 1440,
+        "step": 1,
+        "units": "minutes",
+        "description": "Refresh Interval"
+    },
+    "popup-font-size": {
+        "type": "spinbutton",
+        "default": 11,
+        "min": 8,
+        "max": 32,
+        "step": 1,
+        "units": "pt",
+        "description": "Popup Font Size"
+    },
+    "popup-width": {
+        "type": "spinbutton",
+        "default": 300,
+        "min": 100,
+        "max": 1000,
+        "step": 10,
+        "units": "px",
+        "description": "Popup Width"
+    },
+    "scroll-interval": {
+        "type": "spinbutton",
+        "default": 5,
+        "min": 1,
+        "max": 60,
+        "step": 1,
+        "units": "seconds",
+        "description": "Text Cycle Interval",
+        "tooltip": "Time to show each line before switching to the next"
+    },
+    "set-panel-width": {
+        "type": "checkbox",
+        "default": false,
+        "description": "Set Fixed Panel Width"
+    },
+    "panel-width": {
+        "type": "spinbutton",
+        "default": 150,
+        "min": 20,
+        "max": 1000,
+        "step": 5,
+        "units": "px",
+        "description": "Panel Width",
+        "dependency": "set-panel-width"
+    }
+}
