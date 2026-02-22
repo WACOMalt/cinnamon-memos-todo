@@ -1,0 +1,16 @@
+{
+    "authToken": "",
+    "memoId": "1",
+    "overlayRightMargin": 400,
+    "panelFontSize": 10,
+    "panelWidth": 150,
+    "popupFontSize": 11,
+    "popupWidth": 340,
+    "refreshInterval": 10,
+    "scrollInterval": 5,
+    "serverUrl": "https://demo.usememos.com/",
+    "setPanelWidth": false,
+    "showCompletedPanel": true,
+    "showCompletedPopup": true,
+    "transitionDuration": 300
+}
