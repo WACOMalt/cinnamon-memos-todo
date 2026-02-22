@@ -26,6 +26,11 @@ import com.wacomalt.memostodo.SettingsManager
 import com.wacomalt.memostodo.api.MemosRepository
 import com.wacomalt.memostodo.model.MemoItem
 import kotlinx.coroutines.flow.first
+import androidx.glance.appwidget.action.ActionCallback
+import androidx.glance.appwidget.action.actionRunCallback
+import androidx.glance.action.ActionParameters
+import androidx.glance.action.actionParametersOf
+import androidx.glance.appwidget.updateAll
 
 class MemoListWidget : GlanceAppWidget() {
     override suspend fun provideGlance(context: Context, id: GlanceId) {
@@ -70,7 +75,16 @@ class MemoListWidget : GlanceAppWidget() {
                                     modifier = GlanceModifier.fillMaxWidth().padding(vertical = 4.dp),
                                     verticalAlignment = Alignment.CenterVertically
                                 ) {
-                                    CheckBox(checked = item.isChecked, onCheckedChange = null)
+                                    val rawIndex = rawItems.indexOf(item)
+                                    CheckBox(
+                                        checked = item.isChecked, 
+                                        onCheckedChange = actionRunCallback<ToggleTaskAction>(
+                                            actionParametersOf(
+                                                ToggleTaskAction.taskIndexKey to rawIndex,
+                                                ToggleTaskAction.taskCheckedKey to !item.isChecked
+                                            )
+                                        )
+                                    )
                                     val style = if (item.isChecked) {
                                         TextStyle(fontSize = fontSize.sp, color = dimTextColor, textDecoration = TextDecoration.LineThrough)
                                     } else {
@@ -96,4 +110,39 @@ class MemoListWidget : GlanceAppWidget() {
 
 class MemoListWidgetReceiver : GlanceAppWidgetReceiver() {
     override val glanceAppWidget: GlanceAppWidget = MemoListWidget()
+}
+
+class ToggleTaskAction : ActionCallback {
+    override suspend fun onAction(
+        context: Context,
+        glanceId: GlanceId,
+        parameters: ActionParameters
+    ) {
+        val taskIndex = parameters[taskIndexKey] ?: return
+        val isChecked = parameters[taskCheckedKey] ?: return
+
+        val settings = SettingsManager(context)
+        val url = settings.serverUrl.first()
+        val token = settings.authToken.first()
+        val memoId = settings.memoId.first()
+
+        val repo = MemosRepository(url, token)
+        val fetched = repo.fetchMemo(memoId) ?: return
+        val newList = fetched.toMutableList()
+
+        if (taskIndex >= 0 && taskIndex < newList.size) {
+            val item = newList[taskIndex]
+            if (item is MemoItem.Todo) {
+                newList[taskIndex] = item.copy(isChecked = isChecked)
+                repo.updateMemo(memoId, newList)
+                MemoListWidget().updateAll(context)
+                TaskBarWidget().updateAll(context)
+            }
+        }
+    }
+
+    companion object {
+        val taskIndexKey = ActionParameters.Key<Int>("taskIndex")
+        val taskCheckedKey = ActionParameters.Key<Boolean>("taskChecked")
+    }
 }
