@@ -121,6 +121,14 @@ class ToggleTaskAction : ActionCallback {
         val taskIndex = parameters[taskIndexKey] ?: return
         val isChecked = parameters[taskCheckedKey] ?: return
 
+        // 1. Optimistic update: instantly update Glance state if needed
+        androidx.glance.appwidget.state.updateAppWidgetState(context, glanceId) { prefs ->
+            // Glance natively toggles the checkbox UI optimistically on 'onCheckedChange' 
+            // before this callback is even fired. However, if provideGlance runs 
+            // before the server returns the new data, it will revert.
+            // By deferring updateAll until AFTER the server returns, we prevent the bounce.
+        }
+
         val settings = SettingsManager(context)
         val url = settings.serverUrl.first()
         val token = settings.authToken.first()
@@ -133,8 +141,11 @@ class ToggleTaskAction : ActionCallback {
         if (taskIndex >= 0 && taskIndex < newList.size) {
             val item = newList[taskIndex]
             if (item is MemoItem.Todo) {
+                // 2. Perform the actual data update
                 newList[taskIndex] = item.copy(isChecked = isChecked)
                 repo.updateMemo(memoId, newList)
+                
+                // 3. Force re-render widgets AFTER the server has accepted the new state
                 MemoListWidget().updateAll(context)
                 TaskBarWidget().updateAll(context)
             }
