@@ -36,7 +36,6 @@ import androidx.glance.state.PreferencesGlanceStateDefinition
 import androidx.datastore.preferences.core.booleanPreferencesKey
 
 class MemoListWidget : GlanceAppWidget() {
-    override val stateDefinition = PreferencesGlanceStateDefinition
     
     override suspend fun provideGlance(context: Context, id: GlanceId) {
         val settings = SettingsManager(context)
@@ -81,20 +80,18 @@ class MemoListWidget : GlanceAppWidget() {
                                     verticalAlignment = Alignment.CenterVertically
                                 ) {
                                     val rawIndex = rawItems.indexOf(item)
-                                    val stateKey = booleanPreferencesKey("checkbox_$rawIndex")
-                                    val prefs = androidx.glance.currentState<androidx.datastore.preferences.core.Preferences>()
-                                    val isChecked = prefs[stateKey] ?: item.isChecked
                                     
                                     CheckBox(
-                                        checked = isChecked, 
+                                        checked = item.isChecked, 
                                         onCheckedChange = actionRunCallback<ToggleTaskAction>(
                                             actionParametersOf(
+                                                androidx.glance.action.ActionParameters.Key<Boolean>("androidx.glance.appwidget.action.ToggleableStateKey") to !item.isChecked,
                                                 ToggleTaskAction.taskIndexKey to rawIndex,
-                                                ToggleTaskAction.taskCheckedKey to !isChecked
+                                                ToggleTaskAction.taskCheckedKey to !item.isChecked
                                             )
                                         )
                                     )
-                                    val style = if (isChecked) {
+                                    val style = if (item.isChecked) {
                                         TextStyle(fontSize = fontSize.sp, color = dimTextColor, textDecoration = TextDecoration.LineThrough)
                                     } else {
                                         TextStyle(fontSize = fontSize.sp, color = textColor)
@@ -130,13 +127,6 @@ class ToggleTaskAction : ActionCallback {
         val taskIndex = parameters[taskIndexKey] ?: return
         val isChecked = parameters[taskCheckedKey] ?: return
 
-        // 1. Optimistic update: instantly update Glance state
-        updateAppWidgetState(context, glanceId) { prefs ->
-            val stateKey = booleanPreferencesKey("checkbox_$taskIndex")
-            prefs[stateKey] = isChecked
-        }
-        MemoListWidget().update(context, glanceId)
-
         val settings = SettingsManager(context)
         val url = settings.serverUrl.first()
         val token = settings.authToken.first()
@@ -149,21 +139,13 @@ class ToggleTaskAction : ActionCallback {
         if (taskIndex >= 0 && taskIndex < newList.size) {
             val item = newList[taskIndex]
             if (item is MemoItem.Todo) {
-                try {
-                    // 2. Perform the actual data update
-                    newList[taskIndex] = item.copy(isChecked = isChecked)
-                    repo.updateMemo(memoId, newList)
-                } finally {
-                    // Always clear the temporary optimistic state so future app data overrides it correctly
-                    updateAppWidgetState(context, glanceId) { prefs ->
-                        val stateKey = booleanPreferencesKey("checkbox_$taskIndex")
-                        prefs.remove(stateKey)
-                    }
-                    
-                    // 3. Force re-render widgets AFTER the server has accepted the new state
-                    MemoListWidget().updateAll(context)
-                    TaskBarWidget().updateAll(context)
-                }
+                // 2. Perform the actual data update
+                newList[taskIndex] = item.copy(isChecked = isChecked)
+                repo.updateMemo(memoId, newList)
+                
+                // 3. Force re-render widgets AFTER the server has accepted the new state
+                MemoListWidget().updateAll(context)
+                TaskBarWidget().updateAll(context)
             }
         }
     }
