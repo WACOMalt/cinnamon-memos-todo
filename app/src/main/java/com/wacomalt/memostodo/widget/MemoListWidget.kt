@@ -31,8 +31,13 @@ import androidx.glance.appwidget.action.actionRunCallback
 import androidx.glance.action.ActionParameters
 import androidx.glance.action.actionParametersOf
 import androidx.glance.appwidget.updateAll
+import androidx.glance.appwidget.state.updateAppWidgetState
+import androidx.glance.state.PreferencesGlanceStateDefinition
+import androidx.datastore.preferences.core.booleanPreferencesKey
 
 class MemoListWidget : GlanceAppWidget() {
+    override val stateDefinition = PreferencesGlanceStateDefinition
+    
     override suspend fun provideGlance(context: Context, id: GlanceId) {
         val settings = SettingsManager(context)
         val fontSize = settings.widgetFontSize.first()
@@ -76,16 +81,20 @@ class MemoListWidget : GlanceAppWidget() {
                                     verticalAlignment = Alignment.CenterVertically
                                 ) {
                                     val rawIndex = rawItems.indexOf(item)
+                                    val stateKey = booleanPreferencesKey("checkbox_$rawIndex")
+                                    val prefs = androidx.glance.currentState<androidx.datastore.preferences.core.Preferences>()
+                                    val isChecked = prefs[stateKey] ?: item.isChecked
+                                    
                                     CheckBox(
-                                        checked = item.isChecked, 
+                                        checked = isChecked, 
                                         onCheckedChange = actionRunCallback<ToggleTaskAction>(
                                             actionParametersOf(
                                                 ToggleTaskAction.taskIndexKey to rawIndex,
-                                                ToggleTaskAction.taskCheckedKey to !item.isChecked
+                                                ToggleTaskAction.taskCheckedKey to !isChecked
                                             )
                                         )
                                     )
-                                    val style = if (item.isChecked) {
+                                    val style = if (isChecked) {
                                         TextStyle(fontSize = fontSize.sp, color = dimTextColor, textDecoration = TextDecoration.LineThrough)
                                     } else {
                                         TextStyle(fontSize = fontSize.sp, color = textColor)
@@ -121,13 +130,12 @@ class ToggleTaskAction : ActionCallback {
         val taskIndex = parameters[taskIndexKey] ?: return
         val isChecked = parameters[taskCheckedKey] ?: return
 
-        // 1. Optimistic update: instantly update Glance state if needed
-        androidx.glance.appwidget.state.updateAppWidgetState(context, glanceId) { prefs ->
-            // Glance natively toggles the checkbox UI optimistically on 'onCheckedChange' 
-            // before this callback is even fired. However, if provideGlance runs 
-            // before the server returns the new data, it will revert.
-            // By deferring updateAll until AFTER the server returns, we prevent the bounce.
+        // 1. Optimistic update: instantly update Glance state
+        updateAppWidgetState(context, glanceId) { prefs ->
+            val stateKey = booleanPreferencesKey("checkbox_$taskIndex")
+            prefs[stateKey] = isChecked
         }
+        MemoListWidget().update(context, glanceId)
 
         val settings = SettingsManager(context)
         val url = settings.serverUrl.first()
