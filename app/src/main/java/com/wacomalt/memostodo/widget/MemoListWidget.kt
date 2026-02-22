@@ -149,13 +149,21 @@ class ToggleTaskAction : ActionCallback {
         if (taskIndex >= 0 && taskIndex < newList.size) {
             val item = newList[taskIndex]
             if (item is MemoItem.Todo) {
-                // 2. Perform the actual data update
-                newList[taskIndex] = item.copy(isChecked = isChecked)
-                repo.updateMemo(memoId, newList)
-                
-                // 3. Force re-render widgets AFTER the server has accepted the new state
-                MemoListWidget().updateAll(context)
-                TaskBarWidget().updateAll(context)
+                try {
+                    // 2. Perform the actual data update
+                    newList[taskIndex] = item.copy(isChecked = isChecked)
+                    repo.updateMemo(memoId, newList)
+                } finally {
+                    // Always clear the temporary optimistic state so future app data overrides it correctly
+                    updateAppWidgetState(context, glanceId) { prefs ->
+                        val stateKey = booleanPreferencesKey("checkbox_$taskIndex")
+                        prefs.remove(stateKey)
+                    }
+                    
+                    // 3. Force re-render widgets AFTER the server has accepted the new state
+                    MemoListWidget().updateAll(context)
+                    TaskBarWidget().updateAll(context)
+                }
             }
         }
     }
