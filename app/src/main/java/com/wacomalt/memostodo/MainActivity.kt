@@ -19,6 +19,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.wacomalt.memostodo.api.MemosRepository
 import com.wacomalt.memostodo.model.MemoItem
+import com.wacomalt.memostodo.widget.MemoListWidget
+import com.wacomalt.memostodo.widget.TaskBarWidget
+import androidx.glance.appwidget.updateAll
 import kotlinx.coroutines.launch
 
 class MainActivity : ComponentActivity() {
@@ -74,6 +77,7 @@ fun MemosScreen(
     val lifecycleOwner = androidx.compose.ui.platform.LocalLifecycleOwner.current
     val currentRepo by rememberUpdatedState(repository)
     val currentMemoId by rememberUpdatedState(memoId)
+    val context = androidx.compose.ui.platform.LocalContext.current
 
     androidx.compose.runtime.DisposableEffect(lifecycleOwner) {
         val observer = androidx.lifecycle.LifecycleEventObserver { _, event ->
@@ -83,6 +87,11 @@ fun MemosScreen(
                      if (result != null) {
                          rawItems = result
                      }
+                 }
+            } else if (event == androidx.lifecycle.Lifecycle.Event.ON_PAUSE) {
+                 scope.launch {
+                     MemoListWidget().updateAll(context)
+                     TaskBarWidget().updateAll(context)
                  }
             }
         }
@@ -148,6 +157,8 @@ fun MemosScreen(
                                 if (result != null) {
                                     rawItems = result
                                 }
+                                MemoListWidget().updateAll(context)
+                                TaskBarWidget().updateAll(context)
                             }
                         }
                     }) {
@@ -174,6 +185,8 @@ fun MemosScreen(
                                     rawItems = newList // Optimistic update
                                     scope.launch {
                                         repository.updateMemo(memoId, newList)
+                                        MemoListWidget().updateAll(context)
+                                        TaskBarWidget().updateAll(context)
                                     }
                                 }
                             },
@@ -185,6 +198,8 @@ fun MemosScreen(
                                     rawItems = newList // Optimistic update
                                     scope.launch {
                                         repository.updateMemo(memoId, newList)
+                                        MemoListWidget().updateAll(context)
+                                        TaskBarWidget().updateAll(context)
                                     }
                                 }
                             }

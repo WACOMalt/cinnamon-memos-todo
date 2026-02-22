@@ -1,0 +1,352 @@
+Initialized native services in: C:\Users\WACOMalt\.gradle\native
+Initialized jansi services in: C:\Users\WACOMalt\.gradle\native
+Found daemon DaemonInfo{pid=24516, address=[f548a839-ea51-4a89-a853-6f91a5a276ef port:50453, addresses:[/127.0.0.1]], state=Idle, lastBusy=1771716857122, context=DefaultDaemonContext[uid=d32e0a62-ee44-4dfd-9051-e8ed136b628d,javaHome=C:\Program Files\Eclipse Adoptium\jre-21.0.5.11-hotspot,javaVersion=21,javaVendor=Eclipse Adoptium,daemonRegistryDir=C:\Users\WACOMalt\.gradle\daemon,pid=24516,idleTimeout=10800000,priority=NORMAL,applyInstrumentationAgent=true,nativeServicesMode=ENABLED,daemonOpts=-Xmx2048m,-Dfile.encoding=UTF-8,-Duser.country=US,-Duser.language=en,-Duser.variant]} however its context does not match the desired criteria.
+JVM is incompatible.
+Wanted: DaemonRequestContext{jvmCriteria=C:\Program Files\Android\Android Studio\jbr (no JDK specified, using current Java home), daemonOpts=[-Xmx2048m, -Dfile.encoding=UTF-8, -Duser.country=US, -Duser.language=en, -Duser.variant], applyInstrumentationAgent=true, nativeServicesMode=ENABLED, priority=NORMAL}
+Actual: DefaultDaemonContext[uid=d32e0a62-ee44-4dfd-9051-e8ed136b628d,javaHome=C:\Program Files\Eclipse Adoptium\jre-21.0.5.11-hotspot,javaVersion=21,javaVendor=Eclipse Adoptium,daemonRegistryDir=C:\Users\WACOMalt\.gradle\daemon,pid=24516,idleTimeout=10800000,priority=NORMAL,applyInstrumentationAgent=true,nativeServicesMode=ENABLED,daemonOpts=-Xmx2048m,-Dfile.encoding=UTF-8,-Duser.country=US,-Duser.language=en,-Duser.variant]
+
+  Looking for a different daemon...
+The client will now receive all logging from the daemon (pid: 15032). The daemon log file: C:\Users\WACOMalt\.gradle\daemon\9.0-milestone-1\daemon-15032.out.log
+Starting 10th build in daemon [uptime: 1 hrs 20 mins 2.215 secs, performance: 99%, GC rate: 0.00/s, heap usage: 1% of 2 GiB]
+Using 16 worker leases.
+Now considering [C:\Users\WACOMalt\gemini\memos-todo-mobile] as hierarchies to watch
+Watching the file system is configured to be enabled if available
+File system watching is active
+Starting Build
+Settings evaluated using settings file 'C:\Users\WACOMalt\gemini\memos-todo-mobile\settings.gradle'.
+Projects loaded. Root project using build file 'C:\Users\WACOMalt\gemini\memos-todo-mobile\build.gradle'.
+Included projects: [root project 'memos-todo-mobile', project ':app']
+
+> Configure project :
+Evaluating root project 'memos-todo-mobile' using build file 'C:\Users\WACOMalt\gemini\memos-todo-mobile\build.gradle'.
+Resolved plugin [id: 'com.android.application', version: '8.2.2', apply: false]
+Resolved plugin [id: 'org.jetbrains.kotlin.android', version: '1.9.22', apply: false]
+Resolved plugin [id: 'com.google.devtools.ksp', version: '1.9.22-1.0.17', apply: false]
+
+> Configure project :app
+Evaluating project ':app' using build file 'C:\Users\WACOMalt\gemini\memos-todo-mobile\app\build.gradle'.
+Resolved plugin [id: 'com.android.application']
+Resolved plugin [id: 'org.jetbrains.kotlin.android']
+Resolved plugin [id: 'com.google.devtools.ksp']
+Resolved plugin [id: 'kotlin-parcelize']
+Using default execution profile
+Using Kotlin Gradle Plugin gradle82 variant
+All projects evaluated.
+Task name matched 'assembleDebug'
+Selected primary task 'assembleDebug' from project :
+Tasks to be executed: [task ':app:preBuild', task ':app:preDebugBuild', task ':app:mergeDebugNativeDebugMetadata', task ':app:checkKotlinGradlePluginConfigurationErrors', task ':app:checkDebugAarMetadata', task ':app:generateDebugResValues', task ':app:mapDebugSourceSetPaths', task ':app:generateDebugResources', task ':app:mergeDebugResources', task ':app:packageDebugResources', task ':app:parseDebugLocalResources', task ':app:createDebugCompatibleScreenManifests', task ':app:extractDeepLinksDebug', task ':app:processDebugMainManifest', task ':app:processDebugManifest', task ':app:processDebugManifestForPackage', task ':app:processDebugResources', task ':app:compileDebugKotlin', task ':app:javaPreCompileDebug', task ':app:compileDebugJavaWithJavac', task ':app:mergeDebugShaders', task ':app:compileDebugShaders', task ':app:generateDebugAssets', task ':app:mergeDebugAssets', task ':app:compressDebugAssets', task ':app:desugarDebugFileDependencies', task ':app:dexBuilderDebug', task ':app:mergeDebugGlobalSynthetics', task ':app:processDebugJavaRes', task ':app:mergeDebugJavaResource', task ':app:checkDebugDuplicateClasses', task ':app:mergeExtDexDebug', task ':app:mergeLibDexDebug', task ':app:mergeProjectDexDebug', task ':app:mergeDebugJniLibFolders', task ':app:mergeDebugNativeLibs', task ':app:stripDebugDebugSymbols', task ':app:validateSigningDebug', task ':app:writeDebugAppMetadata', task ':app:writeDebugSigningConfigVersions', task ':app:packageDebug', task ':app:createDebugApkListingFileRedirect', task ':app:assembleDebug']
+Tasks that were excluded: []
+Resolve mutations for :app:preBuild (Thread[#1297,Execution worker,5,main]) started.
+:app:preBuild (Thread[#1297,Execution worker,5,main]) started.
+
+> Task :app:preBuild UP-TO-DATE
+Skipping task ':app:preBuild' as it has no actions.
+Resolve mutations for :app:preDebugBuild (Thread[#1297,Execution worker,5,main]) started.
+:app:preDebugBuild (Thread[#1299,Execution worker Thread 3,5,main]) started.
+
+> Task :app:preDebugBuild UP-TO-DATE
+Skipping task ':app:preDebugBuild' as it has no actions.
+Resolve mutations for :app:mergeDebugNativeDebugMetadata (Thread[#1299,Execution worker Thread 3,5,main]) started.
+:app:mergeDebugNativeDebugMetadata (Thread[#1304,Execution worker Thread 8,5,main]) started.
+
+> Task :app:mergeDebugNativeDebugMetadata NO-SOURCE
+Skipping task ':app:mergeDebugNativeDebugMetadata' as it has no source files and no previous output files.
+Resolve mutations for :app:checkKotlinGradlePluginConfigurationErrors (Thread[#1304,Execution worker Thread 8,5,main]) started.
+:app:checkKotlinGradlePluginConfigurationErrors (Thread[#1298,Execution worker Thread 2,5,main]) started.
+
+> Task :app:checkKotlinGradlePluginConfigurationErrors
+Caching disabled for task ':app:checkKotlinGradlePluginConfigurationErrors' because:
+  Build cache is disabled
+Task ':app:checkKotlinGradlePluginConfigurationErrors' is not up-to-date because:
+  Task has not declared any outputs despite executing actions.
+Resolve mutations for :app:checkDebugAarMetadata (Thread[#1298,Execution worker Thread 2,5,main]) started.
+:app:checkDebugAarMetadata (Thread[#1298,Execution worker Thread 2,5,main]) started.
+
+> Task :app:checkDebugAarMetadata UP-TO-DATE
+Caching disabled for task ':app:checkDebugAarMetadata' because:
+  Build cache is disabled
+  Caching has been disabled for the task
+Skipping task ':app:checkDebugAarMetadata' as it is up-to-date.
+Resolve mutations for :app:generateDebugResValues (Thread[#1298,Execution worker Thread 2,5,main]) started.
+:app:generateDebugResValues (Thread[#1298,Execution worker Thread 2,5,main]) started.
+
+> Task :app:generateDebugResValues UP-TO-DATE
+Caching disabled for task ':app:generateDebugResValues' because:
+  Build cache is disabled
+Skipping task ':app:generateDebugResValues' as it is up-to-date.
+Resolve mutations for :app:mapDebugSourceSetPaths (Thread[#1298,Execution worker Thread 2,5,main]) started.
+:app:mapDebugSourceSetPaths (Thread[#1298,Execution worker Thread 2,5,main]) started.
+
+> Task :app:mapDebugSourceSetPaths UP-TO-DATE
+Caching disabled for task ':app:mapDebugSourceSetPaths' because:
+  Build cache is disabled
+  Caching has been disabled for the task
+Skipping task ':app:mapDebugSourceSetPaths' as it is up-to-date.
+Resolve mutations for :app:generateDebugResources (Thread[#1298,Execution worker Thread 2,5,main]) started.
+:app:generateDebugResources (Thread[#1298,Execution worker Thread 2,5,main]) started.
+
+> Task :app:generateDebugResources UP-TO-DATE
+Skipping task ':app:generateDebugResources' as it has no actions.
+Resolve mutations for :app:mergeDebugResources (Thread[#1301,Execution worker Thread 5,5,main]) started.
+:app:mergeDebugResources (Thread[#1301,Execution worker Thread 5,5,main]) started.
+
+> Task :app:mergeDebugResources UP-TO-DATE
+Caching disabled for task ':app:mergeDebugResources' because:
+  Build cache is disabled
+Skipping task ':app:mergeDebugResources' as it is up-to-date.
+Resolve mutations for :app:packageDebugResources (Thread[#1301,Execution worker Thread 5,5,main]) started.
+:app:packageDebugResources (Thread[#1301,Execution worker Thread 5,5,main]) started.
+
+> Task :app:packageDebugResources UP-TO-DATE
+Caching disabled for task ':app:packageDebugResources' because:
+  Build cache is disabled
+Skipping task ':app:packageDebugResources' as it is up-to-date.
+Resolve mutations for :app:parseDebugLocalResources (Thread[#1301,Execution worker Thread 5,5,main]) started.
+:app:parseDebugLocalResources (Thread[#1301,Execution worker Thread 5,5,main]) started.
+
+> Task :app:parseDebugLocalResources UP-TO-DATE
+Caching disabled for task ':app:parseDebugLocalResources' because:
+  Build cache is disabled
+Skipping task ':app:parseDebugLocalResources' as it is up-to-date.
+Resolve mutations for :app:createDebugCompatibleScreenManifests (Thread[#1301,Execution worker Thread 5,5,main]) started.
+:app:createDebugCompatibleScreenManifests (Thread[#1301,Execution worker Thread 5,5,main]) started.
+
+> Task :app:createDebugCompatibleScreenManifests UP-TO-DATE
+Caching disabled for task ':app:createDebugCompatibleScreenManifests' because:
+  Build cache is disabled
+  Caching has been disabled for the task
+Skipping task ':app:createDebugCompatibleScreenManifests' as it is up-to-date.
+Resolve mutations for :app:extractDeepLinksDebug (Thread[#1301,Execution worker Thread 5,5,main]) started.
+:app:extractDeepLinksDebug (Thread[#1301,Execution worker Thread 5,5,main]) started.
+
+> Task :app:extractDeepLinksDebug UP-TO-DATE
+Caching disabled for task ':app:extractDeepLinksDebug' because:
+  Build cache is disabled
+Skipping task ':app:extractDeepLinksDebug' as it is up-to-date.
+Resolve mutations for :app:processDebugMainManifest (Thread[#1301,Execution worker Thread 5,5,main]) started.
+:app:processDebugMainManifest (Thread[#1301,Execution worker Thread 5,5,main]) started.
+
+> Task :app:processDebugMainManifest UP-TO-DATE
+Caching disabled for task ':app:processDebugMainManifest' because:
+  Build cache is disabled
+Skipping task ':app:processDebugMainManifest' as it is up-to-date.
+Resolve mutations for :app:processDebugManifest (Thread[#1301,Execution worker Thread 5,5,main]) started.
+:app:processDebugManifest (Thread[#1301,Execution worker Thread 5,5,main]) started.
+
+> Task :app:processDebugManifest UP-TO-DATE
+Caching disabled for task ':app:processDebugManifest' because:
+  Build cache is disabled
+Skipping task ':app:processDebugManifest' as it is up-to-date.
+Resolve mutations for :app:processDebugManifestForPackage (Thread[#1301,Execution worker Thread 5,5,main]) started.
+:app:processDebugManifestForPackage (Thread[#1301,Execution worker Thread 5,5,main]) started.
+
+> Task :app:processDebugManifestForPackage UP-TO-DATE
+Custom actions are attached to task ':app:processDebugManifestForPackage'.
+Caching disabled for task ':app:processDebugManifestForPackage' because:
+  Build cache is disabled
+Skipping task ':app:processDebugManifestForPackage' as it is up-to-date.
+Resolve mutations for :app:processDebugResources (Thread[#1301,Execution worker Thread 5,5,main]) started.
+:app:processDebugResources (Thread[#1301,Execution worker Thread 5,5,main]) started.
+
+> Task :app:processDebugResources UP-TO-DATE
+Caching disabled for task ':app:processDebugResources' because:
+  Build cache is disabled
+Skipping task ':app:processDebugResources' as it is up-to-date.
+Resolve mutations for :app:compileDebugKotlin (Thread[#1301,Execution worker Thread 5,5,main]) started.
+:app:compileDebugKotlin (Thread[#1301,Execution worker Thread 5,5,main]) started.
+Resolve mutations for :app:javaPreCompileDebug (Thread[#1308,Execution worker Thread 12,5,main]) started.
+:app:javaPreCompileDebug (Thread[#1308,Execution worker Thread 12,5,main]) started.
+
+> Task :app:javaPreCompileDebug UP-TO-DATE
+Caching disabled for task ':app:javaPreCompileDebug' because:
+  Build cache is disabled
+Skipping task ':app:javaPreCompileDebug' as it is up-to-date.
+Resolve mutations for :app:mergeDebugShaders (Thread[#1308,Execution worker Thread 12,5,main]) started.
+:app:mergeDebugShaders (Thread[#1306,Execution worker Thread 10,5,main]) started.
+
+> Task :app:mergeDebugShaders UP-TO-DATE
+Caching disabled for task ':app:mergeDebugShaders' because:
+  Build cache is disabled
+Skipping task ':app:mergeDebugShaders' as it is up-to-date.
+Resolve mutations for :app:compileDebugShaders (Thread[#1306,Execution worker Thread 10,5,main]) started.
+:app:compileDebugShaders (Thread[#1306,Execution worker Thread 10,5,main]) started.
+
+> Task :app:compileDebugShaders NO-SOURCE
+Skipping task ':app:compileDebugShaders' as it has no source files and no previous output files.
+Resolve mutations for :app:generateDebugAssets (Thread[#1306,Execution worker Thread 10,5,main]) started.
+:app:generateDebugAssets (Thread[#1306,Execution worker Thread 10,5,main]) started.
+
+> Task :app:generateDebugAssets UP-TO-DATE
+Skipping task ':app:generateDebugAssets' as it has no actions.
+Resolve mutations for :app:mergeDebugAssets (Thread[#1306,Execution worker Thread 10,5,main]) started.
+:app:mergeDebugAssets (Thread[#1306,Execution worker Thread 10,5,main]) started.
+
+> Task :app:mergeDebugAssets UP-TO-DATE
+Caching disabled for task ':app:mergeDebugAssets' because:
+  Build cache is disabled
+Skipping task ':app:mergeDebugAssets' as it is up-to-date.
+Resolve mutations for :app:compressDebugAssets (Thread[#1306,Execution worker Thread 10,5,main]) started.
+:app:compressDebugAssets (Thread[#1305,Execution worker Thread 9,5,main]) started.
+
+> Task :app:compressDebugAssets UP-TO-DATE
+Caching disabled for task ':app:compressDebugAssets' because:
+  Build cache is disabled
+Skipping task ':app:compressDebugAssets' as it is up-to-date.
+Resolve mutations for :app:desugarDebugFileDependencies (Thread[#1305,Execution worker Thread 9,5,main]) started.
+:app:desugarDebugFileDependencies (Thread[#1305,Execution worker Thread 9,5,main]) started.
+
+> Task :app:desugarDebugFileDependencies UP-TO-DATE
+Caching disabled for task ':app:desugarDebugFileDependencies' because:
+  Build cache is disabled
+Skipping task ':app:desugarDebugFileDependencies' as it is up-to-date.
+Resolve mutations for :app:checkDebugDuplicateClasses (Thread[#1305,Execution worker Thread 9,5,main]) started.
+:app:checkDebugDuplicateClasses (Thread[#1310,Execution worker Thread 14,5,main]) started.
+
+> Task :app:checkDebugDuplicateClasses UP-TO-DATE
+Caching disabled for task ':app:checkDebugDuplicateClasses' because:
+  Build cache is disabled
+  Caching has been disabled for the task
+Skipping task ':app:checkDebugDuplicateClasses' as it is up-to-date.
+Resolve mutations for :app:mergeExtDexDebug (Thread[#1310,Execution worker Thread 14,5,main]) started.
+:app:mergeExtDexDebug (Thread[#1310,Execution worker Thread 14,5,main]) started.
+
+> Task :app:mergeExtDexDebug UP-TO-DATE
+Caching disabled for task ':app:mergeExtDexDebug' because:
+  Build cache is disabled
+Skipping task ':app:mergeExtDexDebug' as it is up-to-date.
+Resolve mutations for :app:mergeLibDexDebug (Thread[#1310,Execution worker Thread 14,5,main]) started.
+:app:mergeLibDexDebug (Thread[#1310,Execution worker Thread 14,5,main]) started.
+
+> Task :app:mergeLibDexDebug UP-TO-DATE
+Caching disabled for task ':app:mergeLibDexDebug' because:
+  Build cache is disabled
+Skipping task ':app:mergeLibDexDebug' as it is up-to-date.
+Resolve mutations for :app:mergeDebugJniLibFolders (Thread[#1310,Execution worker Thread 14,5,main]) started.
+:app:mergeDebugJniLibFolders (Thread[#1310,Execution worker Thread 14,5,main]) started.
+
+> Task :app:mergeDebugJniLibFolders UP-TO-DATE
+Caching disabled for task ':app:mergeDebugJniLibFolders' because:
+  Build cache is disabled
+Skipping task ':app:mergeDebugJniLibFolders' as it is up-to-date.
+Resolve mutations for :app:mergeDebugNativeLibs (Thread[#1310,Execution worker Thread 14,5,main]) started.
+:app:mergeDebugNativeLibs (Thread[#1306,Execution worker Thread 10,5,main]) started.
+
+> Task :app:mergeDebugNativeLibs NO-SOURCE
+Skipping task ':app:mergeDebugNativeLibs' as it has no source files and no previous output files.
+Resolve mutations for :app:stripDebugDebugSymbols (Thread[#1306,Execution worker Thread 10,5,main]) started.
+:app:stripDebugDebugSymbols (Thread[#1312,Execution worker Thread 15,5,main]) started.
+
+> Task :app:stripDebugDebugSymbols NO-SOURCE
+Skipping task ':app:stripDebugDebugSymbols' as it has no source files and no previous output files.
+Resolve mutations for :app:validateSigningDebug (Thread[#1312,Execution worker Thread 15,5,main]) started.
+:app:validateSigningDebug (Thread[#1300,Execution worker Thread 4,5,main]) started.
+
+> Task :app:validateSigningDebug UP-TO-DATE
+Caching disabled for task ':app:validateSigningDebug' because:
+  Build cache is disabled
+  Caching has been disabled for the task
+Skipping task ':app:validateSigningDebug' as it is up-to-date.
+Resolve mutations for :app:writeDebugAppMetadata (Thread[#1300,Execution worker Thread 4,5,main]) started.
+:app:writeDebugAppMetadata (Thread[#1307,Execution worker Thread 11,5,main]) started.
+
+> Task :app:writeDebugAppMetadata UP-TO-DATE
+Caching disabled for task ':app:writeDebugAppMetadata' because:
+  Build cache is disabled
+  Caching has been disabled for the task
+Skipping task ':app:writeDebugAppMetadata' as it is up-to-date.
+Resolve mutations for :app:writeDebugSigningConfigVersions (Thread[#1307,Execution worker Thread 11,5,main]) started.
+:app:writeDebugSigningConfigVersions (Thread[#1307,Execution worker Thread 11,5,main]) started.
+
+> Task :app:writeDebugSigningConfigVersions UP-TO-DATE
+Caching disabled for task ':app:writeDebugSigningConfigVersions' because:
+  Build cache is disabled
+  Caching has been disabled for the task
+Skipping task ':app:writeDebugSigningConfigVersions' as it is up-to-date.
+
+> Task :app:compileDebugKotlin FAILED
+Caching disabled for task ':app:compileDebugKotlin' because:
+  Build cache is disabled
+Task ':app:compileDebugKotlin' is not up-to-date because:
+  Task has failed previously.
+The input changes require a full rebuild for incremental task ':app:compileDebugKotlin'.
+file or directory 'C:\Users\WACOMalt\gemini\memos-todo-mobile\app\src\debug\kotlin', not found
+file or directory 'C:\Users\WACOMalt\gemini\memos-todo-mobile\app\src\debug\kotlin', not found
+file or directory 'C:\Users\WACOMalt\gemini\memos-todo-mobile\app\src\debug\java', not found
+file or directory 'C:\Users\WACOMalt\gemini\memos-todo-mobile\app\src\debug\kotlin', not found
+file or directory 'C:\Users\WACOMalt\gemini\memos-todo-mobile\app\src\debug\java', not found
+file or directory 'C:\Users\WACOMalt\gemini\memos-todo-mobile\app\src\main\kotlin', not found
+file or directory 'C:\Users\WACOMalt\gemini\memos-todo-mobile\app\src\main\kotlin', not found
+file or directory 'C:\Users\WACOMalt\gemini\memos-todo-mobile\app\src\main\kotlin', not found
+file or directory 'C:\Users\WACOMalt\gemini\memos-todo-mobile\app\src\debug\java', not found
+file or directory 'C:\Users\WACOMalt\gemini\memos-todo-mobile\app\src\debug\kotlin', not found
+file or directory 'C:\Users\WACOMalt\gemini\memos-todo-mobile\app\src\debug\kotlin', not found
+file or directory 'C:\Users\WACOMalt\gemini\memos-todo-mobile\app\src\debug\java', not found
+file or directory 'C:\Users\WACOMalt\gemini\memos-todo-mobile\app\src\debug\kotlin', not found
+file or directory 'C:\Users\WACOMalt\gemini\memos-todo-mobile\app\src\debug\java', not found
+file or directory 'C:\Users\WACOMalt\gemini\memos-todo-mobile\app\src\main\kotlin', not found
+file or directory 'C:\Users\WACOMalt\gemini\memos-todo-mobile\app\src\main\kotlin', not found
+file or directory 'C:\Users\WACOMalt\gemini\memos-todo-mobile\app\src\debug\kotlin', not found
+file or directory 'C:\Users\WACOMalt\gemini\memos-todo-mobile\app\src\debug\kotlin', not found
+file or directory 'C:\Users\WACOMalt\gemini\memos-todo-mobile\app\src\debug\java', not found
+file or directory 'C:\Users\WACOMalt\gemini\memos-todo-mobile\app\src\debug\kotlin', not found
+file or directory 'C:\Users\WACOMalt\gemini\memos-todo-mobile\app\src\debug\java', not found
+file or directory 'C:\Users\WACOMalt\gemini\memos-todo-mobile\app\src\main\kotlin', not found
+file or directory 'C:\Users\WACOMalt\gemini\memos-todo-mobile\app\src\main\kotlin', not found
+file or directory 'C:\Users\WACOMalt\gemini\memos-todo-mobile\app\src\main\kotlin', not found
+file or directory 'C:\Users\WACOMalt\gemini\memos-todo-mobile\app\src\debug\java', not found
+file or directory 'C:\Users\WACOMalt\gemini\memos-todo-mobile\app\src\debug\kotlin', not found
+file or directory 'C:\Users\WACOMalt\gemini\memos-todo-mobile\app\src\debug\kotlin', not found
+file or directory 'C:\Users\WACOMalt\gemini\memos-todo-mobile\app\src\debug\java', not found
+file or directory 'C:\Users\WACOMalt\gemini\memos-todo-mobile\app\src\debug\kotlin', not found
+file or directory 'C:\Users\WACOMalt\gemini\memos-todo-mobile\app\src\debug\java', not found
+file or directory 'C:\Users\WACOMalt\gemini\memos-todo-mobile\app\src\main\kotlin', not found
+file or directory 'C:\Users\WACOMalt\gemini\memos-todo-mobile\app\src\main\kotlin', not found
+file or directory 'C:\Users\WACOMalt\gemini\memos-todo-mobile\app\src\main\kotlin', not found
+file or directory 'C:\Users\WACOMalt\gemini\memos-todo-mobile\app\src\debug\java', not found
+file or directory 'C:\Users\WACOMalt\gemini\memos-todo-mobile\app\src\debug\kotlin', not found
+file or directory 'C:\Users\WACOMalt\gemini\memos-todo-mobile\app\src\debug\kotlin', not found
+file or directory 'C:\Users\WACOMalt\gemini\memos-todo-mobile\app\src\debug\java', not found
+file or directory 'C:\Users\WACOMalt\gemini\memos-todo-mobile\app\src\debug\kotlin', not found
+file or directory 'C:\Users\WACOMalt\gemini\memos-todo-mobile\app\src\debug\java', not found
+file or directory 'C:\Users\WACOMalt\gemini\memos-todo-mobile\app\src\main\kotlin', not found
+file or directory 'C:\Users\WACOMalt\gemini\memos-todo-mobile\app\src\main\kotlin', not found
+file or directory 'C:\Users\WACOMalt\gemini\memos-todo-mobile\app\src\main\kotlin', not found
+file or directory 'C:\Users\WACOMalt\gemini\memos-todo-mobile\app\src\debug\java', not found
+Kotlin source files: C:\Users\WACOMalt\gemini\memos-todo-mobile\app\src\main\java\com\wacomalt\memostodo\api\MemosApiService.kt, C:\Users\WACOMalt\gemini\memos-todo-mobile\app\src\main\java\com\wacomalt\memostodo\api\MemosRepository.kt, C:\Users\WACOMalt\gemini\memos-todo-mobile\app\src\main\java\com\wacomalt\memostodo\MainActivity.kt, C:\Users\WACOMalt\gemini\memos-todo-mobile\app\src\main\java\com\wacomalt\memostodo\model\MemoModels.kt, C:\Users\WACOMalt\gemini\memos-todo-mobile\app\src\main\java\com\wacomalt\memostodo\SettingsManager.kt, C:\Users\WACOMalt\gemini\memos-todo-mobile\app\src\main\java\com\wacomalt\memostodo\ui\SettingsScreen.kt, C:\Users\WACOMalt\gemini\memos-todo-mobile\app\src\main\java\com\wacomalt\memostodo\widget\MemoListWidget.kt, C:\Users\WACOMalt\gemini\memos-todo-mobile\app\src\main\java\com\wacomalt\memostodo\widget\TaskBarWidget.kt
+Java source files: 
+Script source files: 
+Script file extensions: 
+Using Kotlin/JVM incremental compilation
+[KOTLIN] Kotlin compilation 'jdkHome' argument: null
+i: found daemon on port 17527 (4794887 ms old), trying to connect
+i: connected to the daemon
+Options for KOTLIN DAEMON: IncrementalCompilationOptions(super=CompilationOptions(compilerMode=INCREMENTAL_COMPILER, targetPlatform=JVM, reportCategories=[0, 3], reportSeverity=2, requestedCompilationResults=[0], kotlinScriptExtensions=[]), areFileChangesKnown=false, modifiedFiles=null, deletedFiles=null, classpathChanges=NotAvailableForNonIncrementalRun, workingDir=C:\Users\WACOMalt\gemini\memos-todo-mobile\app\build\kotlin\compileDebugKotlin\cacheable, multiModuleICSettings=MultiModuleICSettings(buildHistoryFile=C:\Users\WACOMalt\gemini\memos-todo-mobile\app\build\kotlin\compileDebugKotlin\local-state\build-history.bin, useModuleDetection=true), usePreciseJavaTracking=true, outputFiles=[C:\Users\WACOMalt\gemini\memos-todo-mobile\app\build\tmp\kotlin-classes\debug, C:\Users\WACOMalt\gemini\memos-todo-mobile\app\build\kotlin\compileDebugKotlin\cacheable, C:\Users\WACOMalt\gemini\memos-todo-mobile\app\build\kotlin\compileDebugKotlin\local-state])
+e: file:///C:/Users/WACOMalt/gemini/memos-todo-mobile/app/src/main/java/com/wacomalt/memostodo/MainActivity.kt:92:91 @Composable invocations can only happen from the context of a @Composable function
+e: file:///C:/Users/WACOMalt/gemini/memos-todo-mobile/app/src/main/java/com/wacomalt/memostodo/MainActivity.kt:93:90 @Composable invocations can only happen from the context of a @Composable function
+e: file:///C:/Users/WACOMalt/gemini/memos-todo-mobile/app/src/main/java/com/wacomalt/memostodo/MainActivity.kt:153:81 @Composable invocations can only happen from the context of a @Composable function
+e: file:///C:/Users/WACOMalt/gemini/memos-todo-mobile/app/src/main/java/com/wacomalt/memostodo/MainActivity.kt:177:69 @Composable invocations can only happen from the context of a @Composable function
+
+[Incubating] Problems report is available at: file:///C:/Users/WACOMalt/gemini/memos-todo-mobile/build/reports/problems/problems-report.html
+
+FAILURE: Build failed with an exception.
+
+* What went wrong:
+Execution failed for task ':app:compileDebugKotlin'.
+> A failure occurred while executing org.jetbrains.kotlin.compilerRunner.GradleCompilerRunnerWithWorkers$GradleKotlinCompilerWorkAction
+   > Compilation error. See log for more details
+
+* Try:
+> Run with --stacktrace option to get the stack trace.
+> Run with --debug option to get more log output.
+> Run with --scan to get full insights.
+> Get more help at https://help.gradle.org.
+
+Deprecated Gradle features were used in this build, making it incompatible with Gradle 10.0.
+
+You can use '--warning-mode all' to show the individual deprecation warnings and determine if they come from your own scripts or plugins.
+
+For more on this, please refer to https://docs.gradle.org/9.0-milestone-1/userguide/command_line_interface.html#sec:command_line_warnings in the Gradle documentation.
+
+BUILD FAILED in 2s
+26 actionable tasks: 2 executed, 24 up-to-date
+Watched directory hierarchies: [C:\Users\WACOMalt\gemini\memos-todo-mobile]
